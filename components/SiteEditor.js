@@ -37,15 +37,36 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
       <ModernAdminSection
         icon="🏠"
         title={lang === "en" ? "Brand & Header" : "品牌与页头"}
-        description={lang === "en" ? "Brand name displayed in the website header" : "显示在网站页头的品牌名称"}
+        description={lang === "en" ? "Brand name and mission statement" : "品牌名称和使命宣言"}
         accent="gold"
+        languageTabs={<LanguageTabs active={heroLang} onChange={setHeroLang} />}
       >
         <AdminInput
           label={lang === "en" ? "Brand Name" : "品牌名称"}
           value={site.brandName || ""}
           onChange={(v) => updateSite("brandName", v)}
-          placeholder="The House"
+          placeholder="Connect house"
         />
+
+        {heroLang === "en" ? (
+          <AdminInput
+            label={lang === "en" ? "Mission Statement" : "使命宣言"}
+            value={site.missionEn || ""}
+            onChange={(v) => updateSite("missionEn", v)}
+            placeholder="AN ELITE VC + LABS + COMMUNITY HUB ACCELERATING CROSS-BORDER INNOVATION."
+            type="textarea"
+            rows={2}
+          />
+        ) : (
+          <AdminInput
+            label={lang === "en" ? "Mission Statement" : "使命宣言"}
+            value={site.missionZh || ""}
+            onChange={(v) => updateSite("missionZh", v)}
+            placeholder="以 VC + LABS + COMMUNITY 为核心的精英创新枢纽，推动跨境创新。"
+            type="textarea"
+            rows={2}
+          />
+        )}
       </ModernAdminSection>
 
       {/* 2. Hero Section */}
