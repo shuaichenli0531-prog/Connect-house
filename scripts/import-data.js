@@ -1,17 +1,26 @@
 const { PrismaClient } = require("@prisma/client");
 const fs = require("fs");
+const path = require("path");
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  log: ['error', 'warn'],
+});
 
 async function importData() {
   console.log("📥 Importing data to remote database...");
+  console.log(`   Database: ${process.env.DATABASE_URL?.substring(0, 50)}...`);
+  console.log("");
 
-  if (!fs.existsSync("data-export.json")) {
-    console.error("❌ data-export.json not found. Run export-data.js first.");
+  const exportPath = path.join(process.cwd(), "data-export.json");
+  if (!fs.existsSync(exportPath)) {
+    console.error("❌ data-export.json not found!");
+    console.error(`   Expected path: ${exportPath}`);
+    console.error("   Run export-data.js first.");
     process.exit(1);
   }
 
-  const data = JSON.parse(fs.readFileSync("data-export.json", "utf-8"));
+  console.log("✅ Found data-export.json");
+  const data = JSON.parse(fs.readFileSync(exportPath, "utf-8"));
 
   try {
     // Clear existing data (optional)
@@ -55,9 +64,17 @@ async function importData() {
       }
     }
 
+    console.log("");
     console.log("✅ Data import completed successfully!");
+    console.log("");
   } catch (error) {
-    console.error("❌ Import failed:", error);
+    console.error("");
+    console.error("❌ Import failed:");
+    console.error("   Error:", error.message);
+    if (error.code) {
+      console.error("   Code:", error.code);
+    }
+    console.error("");
     throw error;
   } finally {
     await prisma.$disconnect();
@@ -65,6 +82,10 @@ async function importData() {
 }
 
 importData()
+  .then(() => {
+    console.log("🎉 Import completed successfully!");
+    process.exit(0);
+  })
   .catch((e) => {
     console.error(e);
     process.exit(1);
