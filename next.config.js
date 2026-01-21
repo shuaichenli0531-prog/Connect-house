@@ -1,6 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-};
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
+  },
+  // Disable static export for API routes that need database
+  experimental: {
+    appDir: true,
+  },
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
