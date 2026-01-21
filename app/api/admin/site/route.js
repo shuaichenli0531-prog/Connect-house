@@ -4,7 +4,14 @@ import { seedIfEmpty } from "../../../../lib/seed";
 
 function checkAuth(request) {
   const secret = request.headers.get("x-admin-secret");
-  return secret && secret === process.env.ADMIN_SECRET;
+  const envSecret = process.env.ADMIN_SECRET;
+
+  console.log("Auth check:");
+  console.log("  Received secret:", secret ? `${secret.substring(0, 10)}...` : "NONE");
+  console.log("  Expected secret:", envSecret ? `${envSecret.substring(0, 10)}...` : "NOT SET");
+  console.log("  Match:", secret === envSecret);
+
+  return secret && secret === envSecret;
 }
 
 export async function GET(request) {
