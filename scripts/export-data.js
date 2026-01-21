@@ -2,21 +2,23 @@ const { PrismaClient } = require("@prisma/client");
 const fs = require("fs");
 const path = require("path");
 
-// Force using local SQLite database
-process.env.DATABASE_URL = "file:./prisma/dev.db";
+// Get absolute path to database
+const dbPath = path.join(process.cwd(), "prisma", "dev.db");
+const dbUrl = `file:${dbPath}`;
 
-const prisma = new PrismaClient({
-  datasources: {
-    db: {
-      url: "file:./prisma/dev.db"
-    }
-  }
-});
+// Force using local SQLite database
+process.env.DATABASE_URL = dbUrl;
+
+console.log(`Database path: ${dbPath}`);
+console.log(`Database exists: ${fs.existsSync(dbPath)}`);
+
+const prisma = new PrismaClient();
 
 async function exportData() {
   try {
+    console.log("");
     console.log("📦 Exporting data from local database...");
-    console.log(`   Database: ${process.env.DATABASE_URL}`);
+    console.log(`   Database URL: ${process.env.DATABASE_URL}`);
     console.log("");
 
     // Test database connection
