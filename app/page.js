@@ -382,68 +382,23 @@ export default function HomePage({ previewData = null }) {
         </section>
 
         <section id="contact" className="section-padding bg-white/5">
-          <div className="container-wide grid gap-10 md:grid-cols-[1.2fr_0.8fr]">
+          <div className="container-wide">
             <ScrollReveal>
-              <div className="space-y-6">
+              <div className="max-w-2xl space-y-6">
                 <SectionHeading title={contact.title} subtitle={contact.subtitle} />
-              <div className="space-y-3 text-sm text-white/70">
-                <p>{contact.address}</p>
-                <p>{contact.email}</p>
-              </div>
-              <div className="flex gap-4">
-                <a className="btn-primary" href={`mailto:${contact.email}`}>
-                  {contact.cta}
-                </a>
-                <a className="btn-secondary" href="#programs">
-                  {lang === "en"
-                    ? (siteContent.site?.contactApplyBtnEn || "Apply")
-                    : (siteContent.site?.contactApplyBtnZh || "申请")}
-                </a>
-              </div>
-              </div>
-            </ScrollReveal>
-            <ScrollReveal delay={200}>
-              <div className="p-8 flex flex-col items-center justify-center text-center">
-                <p className="text-xs uppercase tracking-[0.3em] text-white/50">
-                  {lang === "en"
-                    ? (siteContent.site?.qrCodeLabelEn || "Join Our Community")
-                    : (siteContent.site?.qrCodeLabelZh || "加入我们")}
-                </p>
-                <h3 className="mt-4 text-xl font-semibold text-white">
-                  {lang === "en"
-                    ? (siteContent.site?.qrCodeTitleEn || "Scan to Apply")
-                    : (siteContent.site?.qrCodeTitleZh || "扫码申请")}
-                </h3>
-                <p className="mt-3 text-sm text-white/70 max-w-xs">
-                  {lang === "en"
-                    ? (siteContent.site?.qrCodeDescEn || "Scan the QR code to access our membership application")
-                    : (siteContent.site?.qrCodeDescZh || "扫描二维码申请会员资格")}
-                </p>
-
-                {/* 二维码容器 */}
-                <div className="mt-6 rounded-xl bg-white p-4">
-                  {siteContent.site?.qrCodeUrl ? (
-                    <img
-                      src={siteContent.site.qrCodeUrl}
-                      alt="QR Code"
-                      className="h-48 w-48 object-contain"
-                    />
-                  ) : (
-                    <div className="h-48 w-48 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg">
-                      <p className="text-xs text-gray-400 text-center px-4">
-                        {lang === "en" ? "QR Code\nConfigure in admin" : "二维码\n后台配置"}
-                      </p>
-                    </div>
-                  )}
+                <div className="space-y-3 text-sm text-white/70">
+                  <p>{contact.address}</p>
+                  <p>{contact.email}</p>
                 </div>
-
-                <p className="mt-4 text-xs text-white/50">
-                  {lang === "en"
-                    ? (siteContent.site?.qrCodeFooterEn || "Private salons · Fellowships · Summits")
-                    : (siteContent.site?.qrCodeFooterZh || "私享沙龙 · 会员项目 · 峰会活动")}
-                </p>
+                <div>
+                  <a className="btn-primary" href={`mailto:${contact.email}`}>
+                    {contact.cta}
+                  </a>
+                </div>
               </div>
             </ScrollReveal>
+
+
           </div>
         </section>
       </main>
