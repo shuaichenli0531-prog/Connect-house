@@ -9,7 +9,9 @@
     "lint": "next lint",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
-    "prisma:studio": "prisma studio"
+    "prisma:studio": "prisma studio",
+    "data:export": "node scripts/export-data.js",
+    "data:import": "node scripts/import-data.js"
   },
   "dependencies": {
     "@prisma/client": "^5.18.0",
