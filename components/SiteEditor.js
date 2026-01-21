@@ -48,137 +48,7 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
         />
       </ModernAdminSection>
 
-      {/* 2. Recent Event Card (Hero Right Side) */}
-      <ModernAdminSection
-        icon="📅"
-        title={lang === "en" ? "Recent Event Card" : "最近活动卡片"}
-        description={lang === "en" ? "Event card displayed on the hero section (right side)" : "主视觉区域显示的活动卡片（右侧）"}
-        accent="purple"
-        languageTabs={<LanguageTabs active={venueLang} onChange={setVenueLang} />}
-      >
-        <ImageUpload
-          label={lang === "en" ? "Event Image" : "活动图片"}
-          value={site.recentEventImageUrl || ""}
-          onChange={(v) => updateSite("recentEventImageUrl", v)}
-          placeholder="https://images.unsplash.com/..."
-        />
-
-        <AdminInput
-          label={lang === "en" ? "Event Date" : "活动日期"}
-          value={site.recentEventDate || ""}
-          onChange={(v) => updateSite("recentEventDate", v)}
-          placeholder="March 15, 2024"
-        />
-
-        {venueLang === "en" ? (
-          <div className="space-y-4">
-            <AdminInput
-              label={lang === "en" ? "Event Title" : "活动标题"}
-              value={site.recentEventTitleEn || ""}
-              onChange={(v) => updateSite("recentEventTitleEn", v)}
-              placeholder="Founder Summit 2024"
-            />
-            <AdminInput
-              label={lang === "en" ? "Description" : "描述"}
-              value={site.recentEventDescEn || ""}
-              onChange={(v) => updateSite("recentEventDescEn", v)}
-              placeholder="A gathering of innovative founders and investors..."
-              type="textarea"
-              rows={2}
-            />
-            <AdminInput
-              label={lang === "en" ? "Button Text" : "按钮文字"}
-              value={site.venueCtaEn || ""}
-              onChange={(v) => updateSite("venueCtaEn", v)}
-              placeholder="Learn More"
-            />
-          </div>
-        ) : (
-          <div className="space-y-4">
-            <AdminInput
-              label={lang === "en" ? "Event Title" : "活动标题"}
-              value={site.recentEventTitleZh || ""}
-              onChange={(v) => updateSite("recentEventTitleZh", v)}
-              placeholder="创始人峰会 2024"
-            />
-            <AdminInput
-              label={lang === "en" ? "Description" : "描述"}
-              value={site.recentEventDescZh || ""}
-              onChange={(v) => updateSite("recentEventDescZh", v)}
-              placeholder="创新创始人与投资者的聚会..."
-              type="textarea"
-              rows={2}
-            />
-            <AdminInput
-              label={lang === "en" ? "Button Text" : "按钮文字"}
-              value={site.venueCtaZh || ""}
-              onChange={(v) => updateSite("venueCtaZh", v)}
-              placeholder="了解更多"
-            />
-          </div>
-        )}
-      </ModernAdminSection>
-
-      {/* 3. Hero Section (Left Side) - Now skip this as it's separate */}
-      <ModernAdminSection
-        icon="📅"
-        title={lang === "en" ? "Recent Event" : "最近活动"}
-        description={lang === "en" ? "Showcase your latest event" : "展示最近的活动"}
-        accent="orange"
-        languageTabs={<LanguageTabs active={venueLang} onChange={setVenueLang} />}
-      >
-        <ImageUpload
-          label={lang === "en" ? "Event Image" : "活动图片"}
-          value={site.recentEventImageUrl || ""}
-          onChange={(v) => updateSite("recentEventImageUrl", v)}
-          placeholder="https://images.unsplash.com/..."
-        />
-
-        <AdminInput
-          label={lang === "en" ? "Event Date" : "活动日期"}
-          value={site.recentEventDate || ""}
-          onChange={(v) => updateSite("recentEventDate", v)}
-          placeholder="March 15, 2024"
-        />
-
-        {venueLang === "en" ? (
-          <div className="space-y-4">
-            <AdminInput
-              label={lang === "en" ? "Event Title" : "活动标题"}
-              value={site.recentEventTitleEn || ""}
-              onChange={(v) => updateSite("recentEventTitleEn", v)}
-              placeholder="Founder Summit 2024"
-            />
-            <AdminInput
-              label={lang === "en" ? "Description" : "描述"}
-              value={site.recentEventDescEn || ""}
-              onChange={(v) => updateSite("recentEventDescEn", v)}
-              placeholder="A gathering of innovative founders..."
-              type="textarea"
-              rows={2}
-            />
-          </div>
-        ) : (
-          <div className="space-y-4">
-            <AdminInput
-              label={lang === "en" ? "Event Title" : "活动标题"}
-              value={site.recentEventTitleZh || ""}
-              onChange={(v) => updateSite("recentEventTitleZh", v)}
-              placeholder="创始人峰会 2024"
-            />
-            <AdminInput
-              label={lang === "en" ? "Description" : "描述"}
-              value={site.recentEventDescZh || ""}
-              onChange={(v) => updateSite("recentEventDescZh", v)}
-              placeholder="创新创始人的聚会..."
-              type="textarea"
-              rows={2}
-            />
-          </div>
-        )}
-      </ModernAdminSection>
-
-      {/* 4. Hero Section */}
+      {/* 2. Hero Section */}
       <ModernAdminSection
         icon="🎯"
         title={lang === "en" ? "Hero Section" : "首页主视觉"}
@@ -230,7 +100,78 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
         )}
       </ModernAdminSection>
 
-      {/* 5. Contact Section */}
+      {/* 3. Recent Event Card (Hero Right Side) */}
+      <ModernAdminSection
+        icon="📅"
+        title={lang === "en" ? "Recent Event Card" : "最近活动卡片"}
+        description={lang === "en" ? "Event card displayed on the hero section (right side)" : "主视觉区域显示的活动卡片（右侧）"}
+        accent="purple"
+        languageTabs={<LanguageTabs active={venueLang} onChange={setVenueLang} />}
+      >
+        <ImageUpload
+          label={lang === "en" ? "Event Image" : "活动图片"}
+          value={site.recentEventImageUrl || ""}
+          onChange={(v) => updateSite("recentEventImageUrl", v)}
+          placeholder="https://images.unsplash.com/..."
+        />
+
+        <AdminInput
+          label={lang === "en" ? "Event Date" : "活动日期"}
+          value={site.recentEventDate || ""}
+          onChange={(v) => updateSite("recentEventDate", v)}
+          placeholder="March 15, 2026"
+        />
+
+        {venueLang === "en" ? (
+          <div className="space-y-4">
+            <AdminInput
+              label={lang === "en" ? "Event Title" : "活动标题"}
+              value={site.recentEventTitleEn || ""}
+              onChange={(v) => updateSite("recentEventTitleEn", v)}
+              placeholder="AI Founder Summit 2026"
+            />
+            <AdminInput
+              label={lang === "en" ? "Description" : "描述"}
+              value={site.recentEventDescEn || ""}
+              onChange={(v) => updateSite("recentEventDescEn", v)}
+              placeholder="A curated gathering of 100+ founders, investors, and researchers..."
+              type="textarea"
+              rows={2}
+            />
+            <AdminInput
+              label={lang === "en" ? "Button Text" : "按钮文字"}
+              value={site.venueCtaEn || ""}
+              onChange={(v) => updateSite("venueCtaEn", v)}
+              placeholder="Join Us"
+            />
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <AdminInput
+              label={lang === "en" ? "Event Title" : "活动标题"}
+              value={site.recentEventTitleZh || ""}
+              onChange={(v) => updateSite("recentEventTitleZh", v)}
+              placeholder="AI 创始人峰会 2026"
+            />
+            <AdminInput
+              label={lang === "en" ? "Description" : "描述"}
+              value={site.recentEventDescZh || ""}
+              onChange={(v) => updateSite("recentEventDescZh", v)}
+              placeholder="精选的 100+ 创始人、投资者和研究人员的聚会..."
+              type="textarea"
+              rows={2}
+            />
+            <AdminInput
+              label={lang === "en" ? "Button Text" : "按钮文字"}
+              value={site.venueCtaZh || ""}
+              onChange={(v) => updateSite("venueCtaZh", v)}
+              placeholder="加入我们"
+            />
+          </div>
+        )}
+      </ModernAdminSection>
+
+      {/* 4. Contact Section */}
       <ModernAdminSection
         icon="📧"
         title={lang === "en" ? "Contact Section" : "联系区域"}
