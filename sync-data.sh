@@ -17,16 +17,9 @@ fi
 echo "✅ Node.js 和 npm 已安装"
 echo ""
 
-# 1. 安装依赖（如果需要）
-if [ ! -d "node_modules/better-sqlite3" ]; then
-    echo "📦 安装依赖..."
-    npm install better-sqlite3
-    echo ""
-fi
-
-# 2. 导出本地数据
+# 1. 导出本地数据
 echo "📦 步骤 1/4: 导出本地数据..."
-node scripts/export-data-direct.js
+node scripts/export-sqlite-simple.js
 if [ $? -ne 0 ]; then
     echo "❌ 导出失败"
     exit 1
