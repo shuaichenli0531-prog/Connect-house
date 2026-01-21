@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { put } from "@vercel/blob";
 
 export async function POST(request) {
   try {
@@ -11,11 +10,11 @@ export async function POST(request) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
-    // 检查文件大小 (限制 2MB)
-    const MAX_SIZE = 2 * 1024 * 1024; // 2MB
+    // 检查文件大小 (限制 5MB for Vercel Blob)
+    const MAX_SIZE = 5 * 1024 * 1024; // 5MB
     if (file.size > MAX_SIZE) {
       return NextResponse.json(
-        { error: "File size exceeds 2MB limit" },
+        { error: "File size exceeds 5MB limit" },
         { status: 400 }
       );
     }
@@ -29,30 +28,22 @@ export async function POST(request) {
       );
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
     // 生成唯一文件名
     const timestamp = Date.now();
     const originalName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
-    const filename = `${timestamp}-${originalName}`;
+    const filename = `uploads/${timestamp}-${originalName}`;
 
-    // 确保 uploads 目录存在
-    const uploadsDir = path.join(process.cwd(), "public", "uploads");
-    try {
-      await mkdir(uploadsDir, { recursive: true });
-    } catch (err) {
-      // 目录可能已存在
-    }
+    // Upload to Vercel Blob Storage
+    const blob = await put(filename, file, {
+      access: 'public',
+      addRandomSuffix: false,
+    });
 
-    // 保存文件
-    const filepath = path.join(uploadsDir, filename);
-    await writeFile(filepath, buffer);
-
-    // 返回可访问的 URL
-    const url = `/uploads/${filename}`;
-
-    return NextResponse.json({ url, filename });
+    // Return the Vercel Blob URL
+    return NextResponse.json({
+      url: blob.url,
+      filename: filename
+    });
   } catch (error) {
     console.error("Upload error:", error);
     return NextResponse.json(
