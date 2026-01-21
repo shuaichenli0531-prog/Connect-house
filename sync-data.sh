@@ -17,16 +17,23 @@ fi
 echo "✅ Node.js 和 npm 已安装"
 echo ""
 
-# 1. 导出本地数据
+# 1. 安装依赖（如果需要）
+if [ ! -d "node_modules/better-sqlite3" ]; then
+    echo "📦 安装依赖..."
+    npm install better-sqlite3
+    echo ""
+fi
+
+# 2. 导出本地数据
 echo "📦 步骤 1/4: 导出本地数据..."
-node scripts/export-data.js
+node scripts/export-data-direct.js
 if [ $? -ne 0 ]; then
     echo "❌ 导出失败"
     exit 1
 fi
 echo ""
 
-# 2. 创建临时环境变量文件
+# 3. 创建临时环境变量文件
 echo "⚙️  步骤 2/4: 配置远程数据库连接..."
 cat > .env.production.local << 'EOF'
 DATABASE_URL="prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqd3RfaWQiOjEsInNlY3VyZV9rZXkiOiJza19sYVRraklRcFYwTkEyU3Rya2dmRlgiLCJhcGlfa2V5IjoiMDFLRkczSEFORjVGTVdQV1A1UjU2UEg1RlgiLCJ0ZW5hbnRfaWQiOiI4YjFlY2NkOWExNTBiZWFjZTYyNWNlNWE2YTdiMzBiMjJkY2EyMjMzMTE1ZjQ4MWY0ZTY5NGI1MjI5NWMyMDllIiwiaW50ZXJuYWxfc2VjcmV0IjoiYjU1NTc0ODktY2Y3OC00YTYxLWEyMWUtNmY4ZTIxMDg2MWEyIn0.54ekeDeF13sqL8_U1i8NkyO-9KusIS23GfduM5fo4TY"
