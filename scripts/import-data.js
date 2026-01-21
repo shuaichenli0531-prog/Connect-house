@@ -2,6 +2,25 @@ const { PrismaClient } = require("@prisma/client");
 const fs = require("fs");
 const path = require("path");
 
+// Load environment variables from .env.production.local
+const envPath = path.join(process.cwd(), ".env.production.local");
+if (fs.existsSync(envPath)) {
+  console.log("📝 Loading environment from .env.production.local");
+  const envContent = fs.readFileSync(envPath, "utf-8");
+  envContent.split("\n").forEach(line => {
+    const match = line.match(/^([^=]+)=(.*)$/);
+    if (match) {
+      const key = match[1].trim();
+      const value = match[2].trim().replace(/^["']|["']$/g, '');
+      process.env[key] = value;
+    }
+  });
+} else {
+  console.error("❌ .env.production.local not found!");
+  console.error(`   Expected: ${envPath}`);
+  process.exit(1);
+}
+
 const prisma = new PrismaClient({
   log: ['error', 'warn'],
 });
