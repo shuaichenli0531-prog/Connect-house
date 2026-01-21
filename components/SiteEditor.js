@@ -60,42 +60,94 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
         {heroLang === "en" ? (
           <div className="space-y-4">
             <AdminInput
+              label={lang === "en" ? "Badge Text" : "徽章文字"}
+              value={site.heroBadgeEn || ""}
+              onChange={(v) => updateSite("heroBadgeEn", v)}
+              placeholder="NOW OPEN"
+            />
+            <AdminInput
               label={lang === "en" ? "Main Title" : "主标题"}
               value={site.heroTitle || ""}
               onChange={(v) => updateSite("heroTitle", v)}
-              placeholder="The House"
+              placeholder="Connect House"
             />
             <AdminInput
               label={lang === "en" ? "Subtitle" : "副标题"}
               value={site.heroSubtitleEn || ""}
               onChange={(v) => updateSite("heroSubtitleEn", v)}
-              placeholder="Elite VC + Labs + Community"
+              placeholder="Connecting the Brightest Minds in the Valley"
             />
             <AdminInput
               label={lang === "en" ? "Description" : "描述"}
               value={site.heroDescEn || ""}
               onChange={(v) => updateSite("heroDescEn", v)}
-              placeholder="A Silicon Valley residence..."
+              placeholder="A Silicon Valley residence bringing together capital, research, and visionary founders..."
               type="textarea"
               rows={3}
             />
+
+            <div className="border-t border-white/10 pt-4 mt-4">
+              <p className="text-sm text-white/70 mb-3">
+                {lang === "en" ? "Call-to-Action Buttons" : "行动号召按钮"}
+              </p>
+              <div className="grid gap-4 md:grid-cols-2">
+                <AdminInput
+                  label={lang === "en" ? "Primary Button Text" : "主按钮文字"}
+                  value={site.heroPrimaryCtaEn || ""}
+                  onChange={(v) => updateSite("heroPrimaryCtaEn", v)}
+                  placeholder="Apply for Membership"
+                />
+                <AdminInput
+                  label={lang === "en" ? "Secondary Button Text" : "次按钮文字"}
+                  value={site.heroSecondaryCtaEn || ""}
+                  onChange={(v) => updateSite("heroSecondaryCtaEn", v)}
+                  placeholder="View Programs"
+                />
+              </div>
+            </div>
           </div>
         ) : (
           <div className="space-y-4">
             <AdminInput
+              label={lang === "en" ? "Badge Text" : "徽章文字"}
+              value={site.heroBadgeZh || ""}
+              onChange={(v) => updateSite("heroBadgeZh", v)}
+              placeholder="现已开放"
+            />
+            <AdminInput
               label={lang === "en" ? "Subtitle" : "副标题"}
               value={site.heroSubtitleZh || ""}
               onChange={(v) => updateSite("heroSubtitleZh", v)}
-              placeholder="精英 VC + Labs + Community"
+              placeholder="连接硅谷最聪明的人才"
             />
             <AdminInput
               label={lang === "en" ? "Description" : "描述"}
               value={site.heroDescZh || ""}
               onChange={(v) => updateSite("heroDescZh", v)}
-              placeholder="面向资本、研究与创始人..."
+              placeholder="汇聚资本、研究与远见创始人的硅谷住所..."
               type="textarea"
               rows={3}
             />
+
+            <div className="border-t border-white/10 pt-4 mt-4">
+              <p className="text-sm text-white/70 mb-3">
+                {lang === "en" ? "Call-to-Action Buttons" : "行动号召按钮"}
+              </p>
+              <div className="grid gap-4 md:grid-cols-2">
+                <AdminInput
+                  label={lang === "en" ? "Primary Button Text" : "主按钮文字"}
+                  value={site.heroPrimaryCtaZh || ""}
+                  onChange={(v) => updateSite("heroPrimaryCtaZh", v)}
+                  placeholder="申请会员"
+                />
+                <AdminInput
+                  label={lang === "en" ? "Secondary Button Text" : "次按钮文字"}
+                  value={site.heroSecondaryCtaZh || ""}
+                  onChange={(v) => updateSite("heroSecondaryCtaZh", v)}
+                  placeholder="查看项目"
+                />
+              </div>
+            </div>
           </div>
         )}
       </ModernAdminSection>
