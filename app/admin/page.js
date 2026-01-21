@@ -48,7 +48,15 @@ const emptySite = {
 
 export default function AdminPage() {
   const [lang, setLang] = useState("en");
-  const [secret, setSecret] = useState("change-me"); // 默认使用环境变量中的密码
+  const [secret, setSecret] = useState(() => {
+    // Try to load from localStorage first
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('adminSecret') || '';
+    }
+    return '';
+  });
+  const [showLogin, setShowLogin] = useState(!secret);
+  const [tempSecret, setTempSecret] = useState('');
   const [active, setActive] = useState("site");
   const [site, setSite] = useState(emptySite);
   const [programs, setPrograms] = useState([]);
@@ -279,6 +287,60 @@ export default function AdminPage() {
     },
   };
 
+  // Login screen
+  if (showLogin) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-ink">
+        <div className="w-full max-w-md rounded-xl border border-white/10 bg-ink/50 p-8 shadow-2xl backdrop-blur">
+          <div className="mb-8 text-center">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-gold/20 to-gold/10 text-3xl">
+              🔐
+            </div>
+            <h1 className="text-2xl font-bold text-white">Admin Login</h1>
+            <p className="mt-2 text-sm text-white/50">Enter your admin secret to continue</p>
+          </div>
+
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (tempSecret) {
+                setSecret(tempSecret);
+                localStorage.setItem('adminSecret', tempSecret);
+                setShowLogin(false);
+              }
+            }}
+            className="space-y-4"
+          >
+            <div>
+              <label className="mb-2 block text-sm font-medium text-white/70">
+                Admin Secret
+              </label>
+              <input
+                type="password"
+                value={tempSecret}
+                onChange={(e) => setTempSecret(e.target.value)}
+                className="w-full rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-white placeholder-white/30 focus:border-gold focus:outline-none focus:ring-2 focus:ring-gold/20"
+                placeholder="Enter your admin secret"
+                autoFocus
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full rounded-lg bg-gold px-4 py-3 font-semibold text-ink transition-all hover:bg-gold/90 hover:shadow-lg"
+            >
+              Login
+            </button>
+
+            <p className="text-center text-xs text-white/30">
+              The admin secret is configured in Vercel environment variables
+            </p>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-screen flex-col bg-ink text-white">
       {/* 顶部导航栏 */}
@@ -325,6 +387,17 @@ export default function AdminPage() {
           {/* Right Actions */}
           <div className="flex items-center gap-3">
             <LanguageToggle lang={lang} onChange={setLang} />
+            <button
+              onClick={() => {
+                localStorage.removeItem('adminSecret');
+                setSecret('');
+                setShowLogin(true);
+              }}
+              className="rounded-lg border border-white/10 px-4 py-2 text-sm text-white/70 transition-colors hover:border-gold hover:text-gold"
+              title={lang === "en" ? "Logout" : "退出登录"}
+            >
+              🚪 {lang === "en" ? "Logout" : "退出"}
+            </button>
           </div>
         </div>
       </header>
