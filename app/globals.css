@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 自定义滚动条样式 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 175, 55, 0.3) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.3);
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.5);
+}
+
+/* 预览区域的特殊样式 */
+.preview-container {
+  background: #0a0a0a;
+}
+
+.preview-container iframe {
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-ink text-pearl font-sans;
+}
+
+.container-wide {
+  @apply mx-auto w-full max-w-6xl px-6;
+}
+
+.section-padding {
+  @apply py-16 md:py-24;
+}
+
+.card {
+  @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm shadow-subtle;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-full bg-gold px-6 py-3 text-sm font-semibold uppercase tracking-wide text-ink transition-all hover:bg-[#dab77e] hover:shadow-lg hover:shadow-gold/50;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center rounded-full border border-gold/60 px-6 py-3 text-sm font-semibold uppercase tracking-wide text-gold transition-all hover:border-gold hover:bg-gold/10 hover:shadow-lg;
+}
+
+.badge {
+  @apply inline-flex items-center rounded-full border border-gold/40 px-3 py-1 text-xs uppercase tracking-[0.2em] text-gold;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.8s ease-out forwards;
+  opacity: 0;
+}

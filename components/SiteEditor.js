@@ -1,0 +1,416 @@
+"use client";
+
+import AdminSection from "./AdminSection";
+import AdminInput from "./AdminInput";
+import ImageUpload from "./ImageUpload";
+import ModernAdminSection from "./ModernAdminSection";
+import LanguageTabs from "./LanguageTabs";
+
+import { useState } from "react";
+
+export default function SiteEditor({ site, setSite, lang, onSave }) {
+  const [saveStatus, setSaveStatus] = useState("");
+  const [heroLang, setHeroLang] = useState("en"); // Hero 区域的语言
+  const [venueLang, setVenueLang] = useState("en"); // Venue 区域的语言
+  const [contactLang, setContactLang] = useState("en"); // Contact 区域的语言
+
+  const updateSite = (key, value) => {
+    setSite({ ...site, [key]: value });
+  };
+
+  const handleSave = async () => {
+    setSaveStatus("saving");
+    try {
+      await onSave();
+      setSaveStatus("success");
+      setTimeout(() => setSaveStatus(""), 3000); // 3秒后清除状态
+    } catch (error) {
+      setSaveStatus("error");
+      setTimeout(() => setSaveStatus(""), 5000);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+
+      {/* 1. Header/Brand Section */}
+      <ModernAdminSection
+        icon="🏠"
+        title={lang === "en" ? "Brand & Header" : "品牌与页头"}
+        description={lang === "en" ? "Brand name displayed in the website header" : "显示在网站页头的品牌名称"}
+        accent="gold"
+      >
+        <AdminInput
+          label={lang === "en" ? "Brand Name" : "品牌名称"}
+          value={site.brandName || ""}
+          onChange={(v) => updateSite("brandName", v)}
+          placeholder="The House"
+        />
+      </ModernAdminSection>
+
+      {/* 2. Recent Event Card (Hero Right Side) */}
+      <ModernAdminSection
+        icon="📅"
+        title={lang === "en" ? "Recent Event Card" : "最近活动卡片"}
+        description={lang === "en" ? "Event card displayed on the hero section (right side)" : "主视觉区域显示的活动卡片（右侧）"}
+        accent="purple"
+        languageTabs={<LanguageTabs active={venueLang} onChange={setVenueLang} />}
+      >
+        <ImageUpload
+          label={lang === "en" ? "Event Image" : "活动图片"}
+          value={site.recentEventImageUrl || ""}
+          onChange={(v) => updateSite("recentEventImageUrl", v)}
+          placeholder="https://images.unsplash.com/..."
+        />
+
+        <AdminInput
+          label={lang === "en" ? "Event Date" : "活动日期"}
+          value={site.recentEventDate || ""}
+          onChange={(v) => updateSite("recentEventDate", v)}
+          placeholder="March 15, 2024"
+        />
+
+        {venueLang === "en" ? (
+          <div className="space-y-4">
+            <AdminInput
+              label={lang === "en" ? "Event Title" : "活动标题"}
+              value={site.recentEventTitleEn || ""}
+              onChange={(v) => updateSite("recentEventTitleEn", v)}
+              placeholder="Founder Summit 2024"
+            />
+            <AdminInput
+              label={lang === "en" ? "Description" : "描述"}
+              value={site.recentEventDescEn || ""}
+              onChange={(v) => updateSite("recentEventDescEn", v)}
+              placeholder="A gathering of innovative founders and investors..."
+              type="textarea"
+              rows={2}
+            />
+            <AdminInput
+              label={lang === "en" ? "Button Text" : "按钮文字"}
+              value={site.venueCtaEn || ""}
+              onChange={(v) => updateSite("venueCtaEn", v)}
+              placeholder="Learn More"
+            />
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <AdminInput
+              label={lang === "en" ? "Event Title" : "活动标题"}
+              value={site.recentEventTitleZh || ""}
+              onChange={(v) => updateSite("recentEventTitleZh", v)}
+              placeholder="创始人峰会 2024"
+            />
+            <AdminInput
+              label={lang === "en" ? "Description" : "描述"}
+              value={site.recentEventDescZh || ""}
+              onChange={(v) => updateSite("recentEventDescZh", v)}
+              placeholder="创新创始人与投资者的聚会..."
+              type="textarea"
+              rows={2}
+            />
+            <AdminInput
+              label={lang === "en" ? "Button Text" : "按钮文字"}
+              value={site.venueCtaZh || ""}
+              onChange={(v) => updateSite("venueCtaZh", v)}
+              placeholder="了解更多"
+            />
+          </div>
+        )}
+      </ModernAdminSection>
+
+      {/* 3. Hero Section (Left Side) - Now skip this as it's separate */}
+      <ModernAdminSection
+        icon="📅"
+        title={lang === "en" ? "Recent Event" : "最近活动"}
+        description={lang === "en" ? "Showcase your latest event" : "展示最近的活动"}
+        accent="orange"
+        languageTabs={<LanguageTabs active={venueLang} onChange={setVenueLang} />}
+      >
+        <ImageUpload
+          label={lang === "en" ? "Event Image" : "活动图片"}
+          value={site.recentEventImageUrl || ""}
+          onChange={(v) => updateSite("recentEventImageUrl", v)}
+          placeholder="https://images.unsplash.com/..."
+        />
+
+        <AdminInput
+          label={lang === "en" ? "Event Date" : "活动日期"}
+          value={site.recentEventDate || ""}
+          onChange={(v) => updateSite("recentEventDate", v)}
+          placeholder="March 15, 2024"
+        />
+
+        {venueLang === "en" ? (
+          <div className="space-y-4">
+            <AdminInput
+              label={lang === "en" ? "Event Title" : "活动标题"}
+              value={site.recentEventTitleEn || ""}
+              onChange={(v) => updateSite("recentEventTitleEn", v)}
+              placeholder="Founder Summit 2024"
+            />
+            <AdminInput
+              label={lang === "en" ? "Description" : "描述"}
+              value={site.recentEventDescEn || ""}
+              onChange={(v) => updateSite("recentEventDescEn", v)}
+              placeholder="A gathering of innovative founders..."
+              type="textarea"
+              rows={2}
+            />
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <AdminInput
+              label={lang === "en" ? "Event Title" : "活动标题"}
+              value={site.recentEventTitleZh || ""}
+              onChange={(v) => updateSite("recentEventTitleZh", v)}
+              placeholder="创始人峰会 2024"
+            />
+            <AdminInput
+              label={lang === "en" ? "Description" : "描述"}
+              value={site.recentEventDescZh || ""}
+              onChange={(v) => updateSite("recentEventDescZh", v)}
+              placeholder="创新创始人的聚会..."
+              type="textarea"
+              rows={2}
+            />
+          </div>
+        )}
+      </ModernAdminSection>
+
+      {/* 4. Hero Section */}
+      <ModernAdminSection
+        icon="🎯"
+        title={lang === "en" ? "Hero Section" : "首页主视觉"}
+        description={lang === "en" ? "Main headline and description at the top of your homepage" : "首页顶部的主标题和描述"}
+        accent="blue"
+        languageTabs={<LanguageTabs active={heroLang} onChange={setHeroLang} />}
+      >
+
+        {heroLang === "en" ? (
+          <div className="space-y-4">
+            <AdminInput
+              label={lang === "en" ? "Main Title" : "主标题"}
+              value={site.heroTitle || ""}
+              onChange={(v) => updateSite("heroTitle", v)}
+              placeholder="The House"
+            />
+            <AdminInput
+              label={lang === "en" ? "Subtitle" : "副标题"}
+              value={site.heroSubtitleEn || ""}
+              onChange={(v) => updateSite("heroSubtitleEn", v)}
+              placeholder="Elite VC + Labs + Community"
+            />
+            <AdminInput
+              label={lang === "en" ? "Description" : "描述"}
+              value={site.heroDescEn || ""}
+              onChange={(v) => updateSite("heroDescEn", v)}
+              placeholder="A Silicon Valley residence..."
+              type="textarea"
+              rows={3}
+            />
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <AdminInput
+              label={lang === "en" ? "Subtitle" : "副标题"}
+              value={site.heroSubtitleZh || ""}
+              onChange={(v) => updateSite("heroSubtitleZh", v)}
+              placeholder="精英 VC + Labs + Community"
+            />
+            <AdminInput
+              label={lang === "en" ? "Description" : "描述"}
+              value={site.heroDescZh || ""}
+              onChange={(v) => updateSite("heroDescZh", v)}
+              placeholder="面向资本、研究与创始人..."
+              type="textarea"
+              rows={3}
+            />
+          </div>
+        )}
+      </ModernAdminSection>
+
+      {/* 5. Contact Section */}
+      <ModernAdminSection
+        icon="📧"
+        title={lang === "en" ? "Contact Section" : "联系区域"}
+        description={lang === "en" ? "Contact information at the bottom of the page" : "页面底部的联系信息"}
+        accent="green"
+        languageTabs={<LanguageTabs active={contactLang} onChange={setContactLang} />}
+      >
+
+        {contactLang === "en" ? (
+          <div className="space-y-4">
+            <AdminInput
+              label={lang === "en" ? "Title" : "标题"}
+              value={site.contactTitleEn || ""}
+              onChange={(v) => updateSite("contactTitleEn", v)}
+              placeholder="Get in Touch"
+            />
+            <AdminInput
+              label={lang === "en" ? "Description" : "描述"}
+              value={site.contactSubtitleEn || ""}
+              onChange={(v) => updateSite("contactSubtitleEn", v)}
+              placeholder="Ready to join..."
+              type="textarea"
+              rows={2}
+            />
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <AdminInput
+              label={lang === "en" ? "Title" : "标题"}
+              value={site.contactTitleZh || ""}
+              onChange={(v) => updateSite("contactTitleZh", v)}
+              placeholder="联系我们"
+            />
+            <AdminInput
+              label={lang === "en" ? "Description" : "描述"}
+              value={site.contactSubtitleZh || ""}
+              onChange={(v) => updateSite("contactSubtitleZh", v)}
+              placeholder="准备加入..."
+              type="textarea"
+              rows={2}
+            />
+          </div>
+        )}
+
+        <div className="mt-4 border-t border-white/10 pt-4 space-y-4">
+          <AdminInput
+            label={lang === "en" ? "Contact Email" : "联系邮箱"}
+            value={site.contactEmail || ""}
+            onChange={(v) => updateSite("contactEmail", v)}
+            placeholder="contact@thehouse.com"
+            type="email"
+          />
+
+          <AdminInput
+            label={lang === "en" ? "'Apply' Button Text" : "「申请」按钮文字"}
+            value={contactLang === "en" ? (site.contactApplyBtnEn || "") : (site.contactApplyBtnZh || "")}
+            onChange={(v) => updateSite(contactLang === "en" ? "contactApplyBtnEn" : "contactApplyBtnZh", v)}
+            placeholder={contactLang === "en" ? "Apply" : "申请"}
+          />
+        </div>
+
+        <div className="mt-6 border-t border-white/10 pt-6">
+          <h4 className="mb-4 text-sm font-medium text-white/80">
+            {lang === "en" ? "QR Code Section (Right Side)" : "二维码区域（右侧）"}
+          </h4>
+
+          <ImageUpload
+            label={lang === "en" ? "QR Code Image" : "二维码图片"}
+            value={site.qrCodeUrl || ""}
+            onChange={(v) => updateSite("qrCodeUrl", v)}
+            placeholder="Upload your QR code image"
+          />
+
+          {contactLang === "en" ? (
+            <div className="mt-4 space-y-4">
+              <AdminInput
+                label={lang === "en" ? "Top Label" : "顶部标签"}
+                value={site.qrCodeLabelEn || ""}
+                onChange={(v) => updateSite("qrCodeLabelEn", v)}
+                placeholder="Join Our Community"
+              />
+              <AdminInput
+                label={lang === "en" ? "Title" : "标题"}
+                value={site.qrCodeTitleEn || ""}
+                onChange={(v) => updateSite("qrCodeTitleEn", v)}
+                placeholder="Scan to Apply"
+              />
+              <AdminInput
+                label={lang === "en" ? "Description" : "描述"}
+                value={site.qrCodeDescEn || ""}
+                onChange={(v) => updateSite("qrCodeDescEn", v)}
+                placeholder="Scan the QR code to access..."
+                type="textarea"
+                rows={2}
+              />
+              <AdminInput
+                label={lang === "en" ? "Footer Text" : "底部文字"}
+                value={site.qrCodeFooterEn || ""}
+                onChange={(v) => updateSite("qrCodeFooterEn", v)}
+                placeholder="Private salons · Fellowships · Summits"
+              />
+            </div>
+          ) : (
+            <div className="mt-4 space-y-4">
+              <AdminInput
+                label={lang === "en" ? "Top Label" : "顶部标签"}
+                value={site.qrCodeLabelZh || ""}
+                onChange={(v) => updateSite("qrCodeLabelZh", v)}
+                placeholder="加入我们"
+              />
+              <AdminInput
+                label={lang === "en" ? "Title" : "标题"}
+                value={site.qrCodeTitleZh || ""}
+                onChange={(v) => updateSite("qrCodeTitleZh", v)}
+                placeholder="扫码申请"
+              />
+              <AdminInput
+                label={lang === "en" ? "Description" : "描述"}
+                value={site.qrCodeDescZh || ""}
+                onChange={(v) => updateSite("qrCodeDescZh", v)}
+                placeholder="扫描二维码申请会员资格"
+                type="textarea"
+                rows={2}
+              />
+              <AdminInput
+                label={lang === "en" ? "Footer Text" : "底部文字"}
+                value={site.qrCodeFooterZh || ""}
+                onChange={(v) => updateSite("qrCodeFooterZh", v)}
+                placeholder="私享沙龙 · 会员项目 · 峰会活动"
+              />
+            </div>
+          )}
+        </div>
+      </ModernAdminSection>
+
+      {/* Save Button */}
+      <div className="sticky bottom-0 z-20 border-t border-white/10 bg-ink/95 p-6 backdrop-blur">
+        <div className="flex items-center justify-between">
+          {/* 状态提示 */}
+          <div className="text-sm">
+            {saveStatus === "saving" && (
+              <div className="flex items-center gap-2 text-gold">
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-gold border-t-transparent" />
+                <span>{lang === "en" ? "Saving..." : "保存中..."}</span>
+              </div>
+            )}
+            {saveStatus === "success" && (
+              <div className="flex items-center gap-2 text-green-400">
+                <span className="text-xl">✓</span>
+                <span>{lang === "en" ? "Saved successfully!" : "保存成功！"}</span>
+              </div>
+            )}
+            {saveStatus === "error" && (
+              <div className="flex items-center gap-2 text-red-400">
+                <span className="text-xl">✗</span>
+                <span>{lang === "en" ? "Save failed" : "保存失败"}</span>
+              </div>
+            )}
+          </div>
+
+          {/* 保存按钮 */}
+          <button
+            className={`rounded-full px-8 py-3 font-semibold shadow-lg transition-all ${
+              saveStatus === "saving"
+                ? "cursor-not-allowed bg-gold/50 text-ink/50"
+                : "bg-gold text-ink hover:scale-105 hover:shadow-xl"
+            }`}
+            onClick={handleSave}
+            disabled={saveStatus === "saving"}
+          >
+            {saveStatus === "saving"
+              ? lang === "en"
+                ? "Saving..."
+                : "保存中..."
+              : lang === "en"
+              ? "💾 Save All Changes"
+              : "💾 保存所有更改"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

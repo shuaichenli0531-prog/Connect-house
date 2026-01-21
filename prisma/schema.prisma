@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model SiteConfig {
+  id                 Int      @id @default(1)
+  brandName          String
+  taglineEn          String
+  taglineZh          String
+  missionEn          String
+  missionZh          String
+  heroBadgeEn        String
+  heroBadgeZh        String
+  heroTitle          String
+  heroSubtitleEn     String
+  heroSubtitleZh     String
+  heroDescEn         String
+  heroDescZh         String
+  heroPrimaryCtaEn   String
+  heroPrimaryCtaZh   String
+  heroSecondaryCtaEn String
+  heroSecondaryCtaZh String
+  heroImageUrl       String?
+  venueImageUrl      String?
+  venueNameEn        String   @default("")
+  venueNameZh        String   @default("")
+  venueDescEn        String   @default("")
+  venueDescZh        String   @default("")
+  venueCapacityEn    String   @default("")
+  venueCapacityZh    String   @default("")
+  venueCtaEn         String   @default("Join Us")
+  venueCtaZh         String   @default("加入我们")
+  recentEventTitleEn String   @default("")
+  recentEventTitleZh String   @default("")
+  recentEventDescEn  String   @default("")
+  recentEventDescZh  String   @default("")
+  recentEventDate    String   @default("")
+  recentEventImageUrl String  @default("")
+  aboutTitleEn       String
+  aboutTitleZh       String
+  aboutLeadEn        String
+  aboutLeadZh        String
+  aboutPillars       String
+  contactTitleEn     String
+  contactTitleZh     String
+  contactSubtitleEn  String
+  contactSubtitleZh  String
+  contactEmail       String
+  contactAddressEn   String
+  contactAddressZh   String
+  contactCtaEn       String
+  contactCtaZh       String
+  contactApplyBtnEn  String   @default("Apply")
+  contactApplyBtnZh  String   @default("申请")
+  qrCodeLabelEn      String   @default("Join Our Community")
+  qrCodeLabelZh      String   @default("加入我们")
+  qrCodeTitleEn      String   @default("Scan to Apply")
+  qrCodeTitleZh      String   @default("扫码申请")
+  qrCodeDescEn       String   @default("Scan the QR code to access our membership application")
+  qrCodeDescZh       String   @default("扫描二维码申请会员资格")
+  qrCodeFooterEn     String   @default("Private salons · Fellowships · Summits")
+  qrCodeFooterZh     String   @default("私享沙龙 · 会员项目 · 峰会活动")
+  qrCodeUrl          String   @default("")
+  updatedAt          DateTime @updatedAt
+}
+
+model Program {
+  id             Int     @id @default(autoincrement())
+  type           String
+  titleEn        String
+  titleZh        String
+  date           String
+  location       String
+  descriptionEn  String
+  descriptionZh  String
+  link           String
+  imageUrl       String?
+  sortOrder      Int     @default(0)
+  published      Boolean @default(true)
+}
+
+model Insight {
+  id             Int     @id @default(autoincrement())
+  titleEn        String
+  titleZh        String
+  descriptionEn  String
+  descriptionZh  String
+  link           String
+  imageUrl       String?
+  sortOrder      Int     @default(0)
+  published      Boolean @default(true)
+}
+
+model Partner {
+  id        Int     @id @default(autoincrement())
+  name      String
+  logoUrl   String?
+  sortOrder Int     @default(0)
+  published Boolean @default(true)
+}
+
+model Lead {
+  id        Int      @id @default(autoincrement())
+  name      String
+  role      String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model PastEvent {
+  id          Int     @id @default(autoincrement())
+  titleEn     String
+  titleZh     String
+  descEn      String  @default("")
+  descZh      String  @default("")
+  imageUrl    String
+  date        String  @default("")
+  sortOrder   Int     @default(0)
+  published   Boolean @default(true)
+}
