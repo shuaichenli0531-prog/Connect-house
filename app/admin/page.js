@@ -263,11 +263,23 @@ export default function AdminPage() {
     const result = await res.json();
     console.log("✅ Delete successful:", result);
 
-    setList((prev) => prev.filter((row) => row.id !== id));
-    setStatus("Deleted.");
+    // Update the list and handle active item switching
+    setList((prev) => {
+      const newList = prev.filter((row) => row.id !== id);
 
-    // Reload data to confirm
-    setTimeout(() => loadAll(), 1000);
+      // If we deleted the active item, switch to the first remaining item
+      if (path === "programs" && id === activeProgramId) {
+        setActiveProgramId(newList.length > 0 ? newList[0].id : null);
+      } else if (path === "partners" && id === activePartnerId) {
+        setActivePartnerId(newList.length > 0 ? newList[0].id : null);
+      } else if (path === "pastevents" && id === activePastEventId) {
+        setActivePastEventId(newList.length > 0 ? newList[0].id : null);
+      }
+
+      return newList;
+    });
+
+    setStatus("Deleted.");
   }
 
   function updateList(setList, id, key, value) {
