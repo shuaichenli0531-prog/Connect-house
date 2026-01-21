@@ -166,6 +166,10 @@ export default function AdminPage() {
   async function saveSite() {
     setStatus("Saving...");
 
+    console.log("💾 Saving site config...");
+    console.log("Current site state:", site);
+    console.log("recentEventImageUrl:", site.recentEventImageUrl);
+
     // 将 JSON 对象转为字符串以存储到 SQLite
     const siteToSave = {
       ...site,
@@ -174,15 +178,24 @@ export default function AdminPage() {
         : site.aboutPillars,
     };
 
+    console.log("Data to save:", siteToSave);
+
     const res = await fetch("/api/admin/site", {
       method: "PUT",
       headers,
       body: JSON.stringify(siteToSave),
     });
+
     if (!res.ok) {
+      console.error("❌ Save failed:", await res.text());
       setStatus("Save failed.");
       return;
     }
+
+    const savedData = await res.json();
+    console.log("✅ Saved successfully:", savedData);
+    console.log("Saved recentEventImageUrl:", savedData.recentEventImageUrl);
+
     setStatus("Saved.");
   }
 
