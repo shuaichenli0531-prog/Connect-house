@@ -67,12 +67,26 @@ export default function ProgramEditor({ program, onChange, onSave, onDelete, lan
           />
         </div>
 
-        <AdminInput
-          label={lang === "en" ? "Apply Link" : "申请链接"}
-          value={program.link || ""}
-          onChange={(v) => onChange("link", v)}
-          placeholder="https://..."
-        />
+        <div className="rounded-lg border border-gold/20 bg-gold/5 p-4">
+          <AdminInput
+            label={
+              <div className="flex items-center gap-2">
+                <span>{lang === "en" ? "Apply Link" : "申请链接"}</span>
+                <span className="text-xs text-gold/70">
+                  {lang === "en" ? "🔗 (Entire card is clickable)" : "🔗 (整个卡片可点击)"}
+                </span>
+              </div>
+            }
+            value={program.link || ""}
+            onChange={(v) => onChange("link", v)}
+            placeholder="https://example.com/apply"
+          />
+          <p className="mt-2 text-xs text-white/50">
+            {lang === "en"
+              ? "When users click on this program card, they will be redirected to this URL in a new tab."
+              : "用户点击此项目卡片时，将在新标签页中跳转到此链接。"}
+          </p>
+        </div>
 
         <ImageUpload
           label={lang === "en" ? "Background Image" : "背景图片"}
