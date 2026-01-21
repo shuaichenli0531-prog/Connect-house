@@ -172,24 +172,63 @@ function buildContent(site, programs, insights, partners, pastEvents) {
 export default function HomePage({ previewData = null }) {
   const [lang, setLang] = useState("en");
   const [content, setContent] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // 如果有预览数据，使用预览数据
     if (previewData) {
       setLang(previewData.lang || "en");
       setContent(buildContent(previewData.site, previewData.programs, previewData.insights, previewData.partners, previewData.pastEvents || []));
+      setLoading(false);
       return;
     }
 
     // 否则从 API 获取真实数据
     async function fetchContent() {
-      const res = await fetch("/api/content");
-      if (!res.ok) return;
-      const data = await res.json();
-      setContent(buildContent(data.site, data.programs, data.insights, data.partners, data.pastEvents || []));
+      try {
+        const res = await fetch("/api/content");
+        if (!res.ok) {
+          setLoading(false);
+          return;
+        }
+        const data = await res.json();
+        setContent(buildContent(data.site, data.programs, data.insights, data.partners, data.pastEvents || []));
+      } catch (error) {
+        console.error("Failed to load content:", error);
+      } finally {
+        setLoading(false);
+      }
     }
     fetchContent();
   }, [previewData]);
+
+  // Show loading screen while fetching data
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-ink">
+        <div className="text-center">
+          {/* Logo/Icon */}
+          <div className="mb-8 flex justify-center">
+            <div className="relative h-20 w-20">
+              <div className="absolute inset-0 animate-ping rounded-full bg-gold/20"></div>
+              <div className="relative flex h-full w-full items-center justify-center rounded-full border-2 border-gold/30 bg-gradient-to-br from-gold/10 to-transparent">
+                <span className="text-3xl">🏠</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Loading text */}
+          <h2 className="mb-4 text-2xl font-bold text-white">The House</h2>
+          <div className="flex items-center justify-center gap-2">
+            <div className="h-2 w-2 animate-bounce rounded-full bg-gold [animation-delay:-0.3s]"></div>
+            <div className="h-2 w-2 animate-bounce rounded-full bg-gold [animation-delay:-0.15s]"></div>
+            <div className="h-2 w-2 animate-bounce rounded-full bg-gold"></div>
+          </div>
+          <p className="mt-4 text-sm text-white/50">Loading content...</p>
+        </div>
+      </div>
+    );
+  }
 
   const siteContent = content || buildContent(null, [], [], [], []);
   const navItems = fallbackContent.nav[lang];
@@ -201,7 +240,7 @@ export default function HomePage({ previewData = null }) {
   const contact = siteContent.contact[lang];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen animate-fadeIn">
       <header className="sticky top-0 z-50 border-b border-white/10 bg-ink/90 backdrop-blur transition-all">
         <div className="container-wide flex items-center justify-between py-4">
           <div className="text-lg font-semibold text-white transition-all hover:text-gold">
