@@ -244,16 +244,30 @@ export default function AdminPage() {
   }
 
   async function deleteItem(path, id, setList) {
+    console.log(`🗑️ Deleting ${path}/${id}`);
+
     const res = await fetch(`/api/admin/${path}/${id}`, {
       method: "DELETE",
       headers,
     });
+
+    console.log("Delete response status:", res.status);
+
     if (!res.ok) {
-      setStatus("Delete failed.");
+      const errorData = await res.json();
+      console.error("❌ Delete failed:", errorData);
+      setStatus(`Delete failed: ${errorData.error || 'Unknown error'}`);
       return;
     }
+
+    const result = await res.json();
+    console.log("✅ Delete successful:", result);
+
     setList((prev) => prev.filter((row) => row.id !== id));
     setStatus("Deleted.");
+
+    // Reload data to confirm
+    setTimeout(() => loadAll(), 1000);
   }
 
   function updateList(setList, id, key, value) {
