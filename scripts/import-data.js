@@ -61,6 +61,10 @@ async function importData() {
       console.log(`📝 Importing ${data.programs.length} Programs...`);
       for (const program of data.programs) {
         const { id, ...programData } = program;
+        // Convert SQLite integers to PostgreSQL booleans
+        if (typeof programData.published === 'number') {
+          programData.published = programData.published === 1;
+        }
         await prisma.program.create({ data: programData });
       }
     }
@@ -70,6 +74,10 @@ async function importData() {
       console.log(`📝 Importing ${data.partners.length} Partners...`);
       for (const partner of data.partners) {
         const { id, ...partnerData } = partner;
+        // Convert SQLite integers to PostgreSQL booleans
+        if (typeof partnerData.published === 'number') {
+          partnerData.published = partnerData.published === 1;
+        }
         await prisma.partner.create({ data: partnerData });
       }
     }
@@ -79,6 +87,10 @@ async function importData() {
       console.log(`📝 Importing ${data.pastEvents.length} PastEvents...`);
       for (const event of data.pastEvents) {
         const { id, ...eventData } = event;
+        // Convert SQLite integers to PostgreSQL booleans
+        if (typeof eventData.published === 'number') {
+          eventData.published = eventData.published === 1;
+        }
         await prisma.pastEvent.create({ data: eventData });
       }
     }
