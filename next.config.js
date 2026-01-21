@@ -5,10 +5,6 @@ const nextConfig = {
       bodySizeLimit: '10mb',
     },
   },
-  // Disable static export for API routes that need database
-  experimental: {
-    appDir: true,
-  },
 }
 
 module.exports = nextConfig
