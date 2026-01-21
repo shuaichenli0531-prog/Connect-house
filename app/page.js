@@ -173,6 +173,41 @@ export default function HomePage({ previewData = null }) {
   const [lang, setLang] = useState("en");
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isPreviewMode, setIsPreviewMode] = useState(false);
+
+  // 监听来自后台的预览消息
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.data?.type === "PREVIEW_UPDATE") {
+        console.log("📺 Preview received message:", event.data);
+        const { data } = event.data;
+        console.log("📺 Updating preview with:", data);
+
+        setIsPreviewMode(true);
+        setLang(data.lang || "en");
+        setContent(buildContent(
+          data.site,
+          data.programs || [],
+          data.insights || [],
+          data.partners || [],
+          data.pastEvents || []
+        ));
+        setLoading(false);
+
+        console.log("📺 Current preview data:", { site: data.site, lang: data.lang });
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+    console.log("📺 Preview page ready");
+
+    // 通知父窗口预览页面已准备好
+    if (window.parent !== window) {
+      window.parent.postMessage({ type: "PREVIEW_READY" }, "*");
+    }
+
+    return () => window.removeEventListener("message", handleMessage);
+  }, []);
 
   useEffect(() => {
     // 如果有预览数据，使用预览数据
@@ -180,6 +215,11 @@ export default function HomePage({ previewData = null }) {
       setLang(previewData.lang || "en");
       setContent(buildContent(previewData.site, previewData.programs, previewData.insights, previewData.partners, previewData.pastEvents || []));
       setLoading(false);
+      return;
+    }
+
+    // 如果在预览模式中，不要从 API 加载数据
+    if (isPreviewMode) {
       return;
     }
 
@@ -200,7 +240,7 @@ export default function HomePage({ previewData = null }) {
       }
     }
     fetchContent();
-  }, [previewData]);
+  }, [previewData, isPreviewMode]);
 
   // Show loading screen while fetching data
   if (loading) {
