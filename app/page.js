@@ -430,11 +430,6 @@ export default function HomePage({ previewData = null }) {
                   <p>{contact.address}</p>
                   <p>{contact.email}</p>
                 </div>
-                <div>
-                  <a className="btn-primary" href={`mailto:${contact.email}`}>
-                    {contact.cta}
-                  </a>
-                </div>
               </div>
             </ScrollReveal>
 
