@@ -11,6 +11,7 @@ datasource db {
 model SiteConfig {
   id                 Int      @id @default(1)
   brandName          String
+  brandLogoUrl       String   @default("")
   taglineEn          String
   taglineZh          String
   missionEn          String

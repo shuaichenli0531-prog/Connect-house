@@ -53,6 +53,7 @@ function buildContent(site, programs, insights, partners, pastEvents) {
     partnersData: (partners || []).filter(p => p.published !== false),
     brand: {
       name: site?.brandName || fallbackContent.brand.name,
+      logoUrl: site?.brandLogoUrl || "",
       tagline: {
         en: site?.taglineEn || fallbackContent.brand.tagline.en,
         zh: site?.taglineZh || fallbackContent.brand.tagline.zh,
@@ -287,8 +288,15 @@ export default function HomePage({ previewData = null }) {
     <div className="min-h-screen animate-fadeIn">
       <header className="sticky top-0 z-50 border-b border-white/10 bg-ink/90 backdrop-blur transition-all">
         <div className="container-wide flex items-center justify-between py-4">
-          <div className="text-lg font-semibold text-white transition-all hover:text-gold">
-            {siteContent.brand.name}
+          <div className="flex items-center gap-3 text-lg font-semibold text-white transition-all hover:text-gold">
+            {siteContent.brand.logoUrl && (
+              <img
+                src={siteContent.brand.logoUrl}
+                alt={siteContent.brand.name}
+                className="h-8 w-auto object-contain"
+              />
+            )}
+            <span>{siteContent.brand.name}</span>
           </div>
           <nav className="hidden items-center gap-6 text-xs uppercase tracking-[0.3em] text-white/70 md:flex">
             {navItems.map((item) => (

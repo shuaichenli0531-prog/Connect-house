@@ -37,10 +37,17 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
       <ModernAdminSection
         icon="🏠"
         title={lang === "en" ? "Brand & Header" : "品牌与页头"}
-        description={lang === "en" ? "Brand name and mission statement" : "品牌名称和使命宣言"}
+        description={lang === "en" ? "Brand logo and name displayed in the header" : "页头显示的品牌 Logo 和名称"}
         accent="gold"
         languageTabs={<LanguageTabs active={heroLang} onChange={setHeroLang} />}
       >
+        <ImageUpload
+          label={lang === "en" ? "Brand Logo" : "品牌 Logo"}
+          value={site.brandLogoUrl || ""}
+          onChange={(v) => updateSite("brandLogoUrl", v)}
+          placeholder="Upload your logo"
+        />
+
         <AdminInput
           label={lang === "en" ? "Brand Name" : "品牌名称"}
           value={site.brandName || ""}
