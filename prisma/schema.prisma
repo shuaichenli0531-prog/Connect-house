@@ -24,8 +24,12 @@ model SiteConfig {
   heroDescZh         String
   heroPrimaryCtaEn   String
   heroPrimaryCtaZh   String
+  heroPrimaryLinkEn  String  @default("")
+  heroPrimaryLinkZh  String  @default("")
   heroSecondaryCtaEn String
   heroSecondaryCtaZh String
+  heroSecondaryLinkEn String @default("")
+  heroSecondaryLinkZh String @default("")
   heroImageUrl       String?
   venueImageUrl      String?
   venueNameEn        String   @default("")

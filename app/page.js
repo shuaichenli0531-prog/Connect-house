@@ -69,7 +69,9 @@ function buildContent(site, programs, insights, partners, pastEvents) {
         subtitle: site?.heroSubtitleEn,
         description: site?.heroDescEn,
         primaryCta: site?.heroPrimaryCtaEn,
+        primaryLink: site?.heroPrimaryLinkEn || "#programs",
         secondaryCta: site?.heroSecondaryCtaEn,
+        secondaryLink: site?.heroSecondaryLinkEn || "#programs",
       },
       zh: {
         badge: site?.heroBadgeZh,
@@ -77,7 +79,9 @@ function buildContent(site, programs, insights, partners, pastEvents) {
         subtitle: site?.heroSubtitleZh,
         description: site?.heroDescZh,
         primaryCta: site?.heroPrimaryCtaZh,
+        primaryLink: site?.heroPrimaryLinkZh || "#programs",
         secondaryCta: site?.heroSecondaryCtaZh,
+        secondaryLink: site?.heroSecondaryLinkZh || "#programs",
       },
     },
     about: {
@@ -314,10 +318,20 @@ export default function HomePage({ previewData = null }) {
                 {hero.description}
               </p>
               <div className="flex flex-wrap gap-4 animate-slide-up" style={{ animationDelay: "0.3s" }}>
-                <a href="#programs" className="btn-primary transition-all hover:scale-105 hover:shadow-xl">
+                <a
+                  href={hero.primaryLink}
+                  target={hero.primaryLink.startsWith('http') ? '_blank' : undefined}
+                  rel={hero.primaryLink.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className="btn-primary transition-all hover:scale-105 hover:shadow-xl"
+                >
                   {hero.primaryCta}
                 </a>
-                <a href="#programs" className="btn-secondary transition-all hover:scale-105">
+                <a
+                  href={hero.secondaryLink}
+                  target={hero.secondaryLink.startsWith('http') ? '_blank' : undefined}
+                  rel={hero.secondaryLink.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className="btn-secondary transition-all hover:scale-105"
+                >
                   {hero.secondaryCta}
                 </a>
               </div>

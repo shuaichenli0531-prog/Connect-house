@@ -111,19 +111,46 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
               <p className="text-sm text-white/70 mb-3">
                 {lang === "en" ? "Call-to-Action Buttons" : "行动号召按钮"}
               </p>
-              <div className="grid gap-4 md:grid-cols-2">
-                <AdminInput
-                  label={lang === "en" ? "Primary Button Text" : "主按钮文字"}
-                  value={site.heroPrimaryCtaEn || ""}
-                  onChange={(v) => updateSite("heroPrimaryCtaEn", v)}
-                  placeholder="Apply for Membership"
-                />
-                <AdminInput
-                  label={lang === "en" ? "Secondary Button Text" : "次按钮文字"}
-                  value={site.heroSecondaryCtaEn || ""}
-                  onChange={(v) => updateSite("heroSecondaryCtaEn", v)}
-                  placeholder="View Programs"
-                />
+              <div className="space-y-4">
+                <div className="rounded-lg border border-gold/20 bg-gold/5 p-4">
+                  <p className="mb-3 text-sm font-medium text-gold">
+                    {lang === "en" ? "Primary Button (Gold)" : "主按钮（金色）"}
+                  </p>
+                  <div className="space-y-3">
+                    <AdminInput
+                      label={lang === "en" ? "Button Text" : "按钮文字"}
+                      value={site.heroPrimaryCtaEn || ""}
+                      onChange={(v) => updateSite("heroPrimaryCtaEn", v)}
+                      placeholder="JOIN US"
+                    />
+                    <AdminInput
+                      label={lang === "en" ? "Button Link" : "按钮链接"}
+                      value={site.heroPrimaryLinkEn || ""}
+                      onChange={(v) => updateSite("heroPrimaryLinkEn", v)}
+                      placeholder="https://example.com/apply"
+                    />
+                  </div>
+                </div>
+
+                <div className="rounded-lg border border-white/20 bg-white/5 p-4">
+                  <p className="mb-3 text-sm font-medium text-white/70">
+                    {lang === "en" ? "Secondary Button (Outline)" : "次按钮（边框）"}
+                  </p>
+                  <div className="space-y-3">
+                    <AdminInput
+                      label={lang === "en" ? "Button Text" : "按钮文字"}
+                      value={site.heroSecondaryCtaEn || ""}
+                      onChange={(v) => updateSite("heroSecondaryCtaEn", v)}
+                      placeholder="LUMA"
+                    />
+                    <AdminInput
+                      label={lang === "en" ? "Button Link" : "按钮链接"}
+                      value={site.heroSecondaryLinkEn || ""}
+                      onChange={(v) => updateSite("heroSecondaryLinkEn", v)}
+                      placeholder="https://lu.ma/your-event"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -154,19 +181,46 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
               <p className="text-sm text-white/70 mb-3">
                 {lang === "en" ? "Call-to-Action Buttons" : "行动号召按钮"}
               </p>
-              <div className="grid gap-4 md:grid-cols-2">
-                <AdminInput
-                  label={lang === "en" ? "Primary Button Text" : "主按钮文字"}
-                  value={site.heroPrimaryCtaZh || ""}
-                  onChange={(v) => updateSite("heroPrimaryCtaZh", v)}
-                  placeholder="申请会员"
-                />
-                <AdminInput
-                  label={lang === "en" ? "Secondary Button Text" : "次按钮文字"}
-                  value={site.heroSecondaryCtaZh || ""}
-                  onChange={(v) => updateSite("heroSecondaryCtaZh", v)}
-                  placeholder="查看项目"
-                />
+              <div className="space-y-4">
+                <div className="rounded-lg border border-gold/20 bg-gold/5 p-4">
+                  <p className="mb-3 text-sm font-medium text-gold">
+                    {lang === "en" ? "Primary Button (Gold)" : "主按钮（金色）"}
+                  </p>
+                  <div className="space-y-3">
+                    <AdminInput
+                      label={lang === "en" ? "Button Text" : "按钮文字"}
+                      value={site.heroPrimaryCtaZh || ""}
+                      onChange={(v) => updateSite("heroPrimaryCtaZh", v)}
+                      placeholder="加入我们"
+                    />
+                    <AdminInput
+                      label={lang === "en" ? "Button Link" : "按钮链接"}
+                      value={site.heroPrimaryLinkZh || ""}
+                      onChange={(v) => updateSite("heroPrimaryLinkZh", v)}
+                      placeholder="https://example.com/apply"
+                    />
+                  </div>
+                </div>
+
+                <div className="rounded-lg border border-white/20 bg-white/5 p-4">
+                  <p className="mb-3 text-sm font-medium text-white/70">
+                    {lang === "en" ? "Secondary Button (Outline)" : "次按钮（边框）"}
+                  </p>
+                  <div className="space-y-3">
+                    <AdminInput
+                      label={lang === "en" ? "Button Text" : "按钮文字"}
+                      value={site.heroSecondaryCtaZh || ""}
+                      onChange={(v) => updateSite("heroSecondaryCtaZh", v)}
+                      placeholder="查看活动"
+                    />
+                    <AdminInput
+                      label={lang === "en" ? "Button Link" : "按钮链接"}
+                      value={site.heroSecondaryLinkZh || ""}
+                      onChange={(v) => updateSite("heroSecondaryLinkZh", v)}
+                      placeholder="https://lu.ma/your-event"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
