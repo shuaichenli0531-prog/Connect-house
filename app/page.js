@@ -326,14 +326,6 @@ export default function HomePage({ previewData = null }) {
                 >
                   {hero.primaryCta}
                 </a>
-                <a
-                  href={hero.secondaryLink}
-                  target={hero.secondaryLink.startsWith('http') ? '_blank' : undefined}
-                  rel={hero.secondaryLink.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="btn-secondary transition-all hover:scale-105"
-                >
-                  {hero.secondaryCta}
-                </a>
               </div>
               <p className="text-xs uppercase tracking-[0.3em] text-white/50 animate-fade-in" style={{ animationDelay: "0.4s" }}>
                 {siteContent.brand.mission[lang]}
