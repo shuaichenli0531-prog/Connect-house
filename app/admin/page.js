@@ -48,7 +48,13 @@ const emptySite = {
 
 export default function AdminPage() {
   const [lang, setLang] = useState("en");
-  const [secret, setSecret] = useState("change-me"); // 默认使用环境变量中的密码
+  const [secret, setSecret] = useState(() => {
+    // 从 localStorage 读取密码，如果没有则使用默认值
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('adminSecret') || "454536174";
+    }
+    return "454536174";
+  });
   const [active, setActive] = useState("site");
   const [site, setSite] = useState(emptySite);
   const [programs, setPrograms] = useState([]);
@@ -59,6 +65,14 @@ export default function AdminPage() {
   const [previewData, setPreviewData] = useState({});
   const [previewReady, setPreviewReady] = useState(false);
   const [previewCollapsed, setPreviewCollapsed] = useState(false);
+
+  // 保存密码到 localStorage
+  useEffect(() => {
+    if (secret && typeof window !== 'undefined') {
+      localStorage.setItem('adminSecret', secret);
+      console.log('🔑 Admin secret saved to localStorage');
+    }
+  }, [secret]);
 
   // 实时发送预览数据到 iframe
   useEffect(() => {
