@@ -288,9 +288,9 @@ export default function HomePage({ previewData = null }) {
     <div className="min-h-screen animate-fadeIn">
       <header className="sticky top-0 z-50 border-b border-white/10 bg-ink/90 backdrop-blur transition-all">
         <div className="container-wide flex items-center justify-between py-4">
-          <a href="#home" className="flex items-center gap-3 text-lg font-semibold text-white transition-all hover:text-gold">
+          <a href="#home" className="flex items-center gap-4 text-lg font-semibold text-white transition-all hover:text-gold">
             {siteContent.brand.logoUrl && (
-              <div className="flex h-10 w-20 items-center justify-center md:h-12 md:w-28">
+              <div className="flex h-12 w-32 items-center justify-center md:h-14 md:w-40">
                 <img
                   src={siteContent.brand.logoUrl}
                   alt={siteContent.brand.name}
