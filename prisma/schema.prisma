@@ -40,6 +40,8 @@ model SiteConfig {
   venueCapacityZh    String   @default("")
   venueCtaEn         String   @default("Join Us")
   venueCtaZh         String   @default("加入我们")
+  venueCtaLinkEn     String   @default("")
+  venueCtaLinkZh     String   @default("")
   recentEventTitleEn String   @default("")
   recentEventTitleZh String   @default("")
   recentEventDescEn  String   @default("")

@@ -361,11 +361,18 @@ export default function HomePage({ previewData = null }) {
                     : (siteContent.site?.recentEventDescZh || "加入我们最新的社区聚会。")}
                 </p>
                 <div className="mt-8">
-                  <button className="rounded-lg border-2 border-gold/30 px-6 py-2.5 text-sm font-semibold text-gold transition-all hover:border-gold hover:bg-gold/10">
+                  <a
+                    href={lang === "en"
+                      ? (siteContent.site?.venueCtaLinkEn || "#programs")
+                      : (siteContent.site?.venueCtaLinkZh || "#programs")}
+                    target={(lang === "en" ? siteContent.site?.venueCtaLinkEn : siteContent.site?.venueCtaLinkZh)?.startsWith('http') ? '_blank' : undefined}
+                    rel={(lang === "en" ? siteContent.site?.venueCtaLinkEn : siteContent.site?.venueCtaLinkZh)?.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="inline-block rounded-lg border-2 border-gold/30 px-6 py-2.5 text-sm font-semibold text-gold transition-all hover:border-gold hover:bg-gold/10"
+                  >
                     {lang === "en"
                       ? (siteContent.site?.venueCtaEn || "Learn More")
                       : (siteContent.site?.venueCtaZh || "了解更多")}
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>

@@ -215,12 +215,20 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
               type="textarea"
               rows={2}
             />
-            <AdminInput
-              label={lang === "en" ? "Button Text" : "按钮文字"}
-              value={site.venueCtaEn || ""}
-              onChange={(v) => updateSite("venueCtaEn", v)}
-              placeholder="Join Us"
-            />
+            <div className="space-y-3">
+              <AdminInput
+                label={lang === "en" ? "Button Text" : "按钮文字"}
+                value={site.venueCtaEn || ""}
+                onChange={(v) => updateSite("venueCtaEn", v)}
+                placeholder="Join Us"
+              />
+              <AdminInput
+                label={lang === "en" ? "Button Link" : "按钮链接"}
+                value={site.venueCtaLinkEn || ""}
+                onChange={(v) => updateSite("venueCtaLinkEn", v)}
+                placeholder="https://example.com/event"
+              />
+            </div>
           </div>
         ) : (
           <div className="space-y-4">
@@ -238,12 +246,20 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
               type="textarea"
               rows={2}
             />
-            <AdminInput
-              label={lang === "en" ? "Button Text" : "按钮文字"}
-              value={site.venueCtaZh || ""}
-              onChange={(v) => updateSite("venueCtaZh", v)}
-              placeholder="加入我们"
-            />
+            <div className="space-y-3">
+              <AdminInput
+                label={lang === "en" ? "Button Text" : "按钮文字"}
+                value={site.venueCtaZh || ""}
+                onChange={(v) => updateSite("venueCtaZh", v)}
+                placeholder="加入我们"
+              />
+              <AdminInput
+                label={lang === "en" ? "Button Link" : "按钮链接"}
+                value={site.venueCtaLinkZh || ""}
+                onChange={(v) => updateSite("venueCtaLinkZh", v)}
+                placeholder="https://example.com/event"
+              />
+            </div>
           </div>
         )}
       </ModernAdminSection>
