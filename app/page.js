@@ -288,16 +288,18 @@ export default function HomePage({ previewData = null }) {
     <div className="min-h-screen animate-fadeIn">
       <header className="sticky top-0 z-50 border-b border-white/10 bg-ink/90 backdrop-blur transition-all">
         <div className="container-wide flex items-center justify-between py-4">
-          <div className="flex items-center gap-3 text-lg font-semibold text-white transition-all hover:text-gold">
+          <a href="#home" className="flex items-center gap-3 text-lg font-semibold text-white transition-all hover:text-gold">
             {siteContent.brand.logoUrl && (
-              <img
-                src={siteContent.brand.logoUrl}
-                alt={siteContent.brand.name}
-                className="h-10 w-auto object-contain md:h-12"
-              />
+              <div className="flex h-10 w-20 items-center justify-center md:h-12 md:w-28">
+                <img
+                  src={siteContent.brand.logoUrl}
+                  alt={siteContent.brand.name}
+                  className="h-full w-full object-contain"
+                />
+              </div>
             )}
-            <span>{siteContent.brand.name}</span>
-          </div>
+            <span className="leading-none">{siteContent.brand.name}</span>
+          </a>
           <nav className="hidden items-center gap-6 text-xs uppercase tracking-[0.3em] text-white/70 md:flex">
             {navItems.map((item) => (
               <a
