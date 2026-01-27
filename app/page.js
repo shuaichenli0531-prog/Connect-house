@@ -290,11 +290,11 @@ export default function HomePage({ previewData = null }) {
         <div className="container-wide flex items-center justify-between py-4">
           <a href="#home" className="flex items-center gap-4 text-lg font-semibold text-white transition-all hover:text-gold">
             {siteContent.brand.logoUrl && (
-              <div className="flex h-12 w-32 items-center justify-center md:h-14 md:w-40">
+              <div className="relative h-12 w-32 overflow-hidden md:h-14 md:w-40">
                 <img
                   src={siteContent.brand.logoUrl}
                   alt={siteContent.brand.name}
-                  className="h-full w-full object-contain"
+                  className="absolute inset-0 h-full w-full object-cover scale-150"
                 />
               </div>
             )}
