@@ -293,7 +293,7 @@ export default function HomePage({ previewData = null }) {
               <img
                 src={siteContent.brand.logoUrl}
                 alt={siteContent.brand.name}
-                className="h-8 w-auto object-contain"
+                className="h-10 w-auto object-contain md:h-12"
               />
             )}
             <span>{siteContent.brand.name}</span>
