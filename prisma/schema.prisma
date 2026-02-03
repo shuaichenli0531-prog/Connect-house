@@ -58,21 +58,20 @@ model SiteConfig {
   contactTitleZh     String
   contactSubtitleEn  String
   contactSubtitleZh  String
-  contactEmail       String
-  contactAddressEn   String
-  contactAddressZh   String
-  contactCtaEn       String
-  contactCtaZh       String
-  contactApplyBtnEn  String   @default("Apply")
-  contactApplyBtnZh  String   @default("申请")
-  qrCodeLabelEn      String   @default("Join Our Community")
-  qrCodeLabelZh      String   @default("加入我们")
-  qrCodeTitleEn      String   @default("Scan to Apply")
-  qrCodeTitleZh      String   @default("扫码申请")
-  qrCodeDescEn       String   @default("Scan the QR code to access our membership application")
-  qrCodeDescZh       String   @default("扫描二维码申请会员资格")
-  qrCodeFooterEn     String   @default("Private salons · Fellowships · Summits")
-  qrCodeFooterZh     String   @default("私享沙龙 · 会员项目 · 峰会活动")
+
+  // House Information
+  houseImageUrl      String   @default("")
+  landArea           String   @default("approx. 10,126 sqm (2.5 acres)")
+  floorArea          String   @default("approx. 721 sqm (7,765 sq ft)")
+  layout             String   @default("7b6b")
+  capacity           String   @default("200 guests")
+
+  // Contact Person
+  contactName        String   @default("Cathy Chang")
+  contactLinkedin    String   @default("https://www.linkedin.com/in/yxchang/")
+  contactTwitter     String   @default("https://x.com/Cathy_c8i")
+  contactMobile      String   @default("5108947404")
+  contactWechat      String   @default("GNAHC0002")
   qrCodeUrl          String   @default("")
 
   // Section Visibility Toggles

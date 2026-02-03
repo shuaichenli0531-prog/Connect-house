@@ -450,61 +450,112 @@ export default function HomePage({ previewData = null }) {
 
         {siteContent.site?.showContactSection !== false && (
           <section id="contact" className="section-padding bg-white/5">
-            <div className="container-wide grid gap-10 md:grid-cols-[1.2fr_0.8fr]">
-            <ScrollReveal>
-              <div className="space-y-6">
+            <div className="container-wide space-y-12">
+              <ScrollReveal>
                 <SectionHeading title={contact.title} subtitle={contact.subtitle} />
-                <div className="space-y-3 text-sm text-white/70">
-                  <p>{contact.address}</p>
-                  <p>{contact.email}</p>
-                </div>
-              </div>
-            </ScrollReveal>
+              </ScrollReveal>
 
-            {/* 二维码区域 */}
-            <ScrollReveal delay={200}>
-              <div className="p-8 flex flex-col items-center justify-center text-center">
-                <p className="text-xs uppercase tracking-[0.3em] text-white/50">
-                  {lang === "en"
-                    ? (siteContent.site?.qrCodeLabelEn || "Join Our Community")
-                    : (siteContent.site?.qrCodeLabelZh || "加入我们")}
-                </p>
-                <h3 className="mt-4 text-xl font-semibold text-white">
-                  {lang === "en"
-                    ? (siteContent.site?.qrCodeTitleEn || "Scan to Apply")
-                    : (siteContent.site?.qrCodeTitleZh || "扫码申请")}
-                </h3>
-                <p className="mt-3 text-sm text-white/70 max-w-xs">
-                  {lang === "en"
-                    ? (siteContent.site?.qrCodeDescEn || "Scan the QR code to access our membership application")
-                    : (siteContent.site?.qrCodeDescZh || "扫描二维码申请会员资格")}
-                </p>
+              {/* House Information */}
+              <ScrollReveal delay={100}>
+                <div className="grid gap-8 md:grid-cols-[1fr_1.5fr] rounded-2xl bg-white/5 p-8">
+                  {/* House Image */}
+                  <div className="overflow-hidden rounded-xl">
+                    {siteContent.site?.houseImageUrl ? (
+                      <img
+                        src={siteContent.site.houseImageUrl}
+                        alt="House"
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-64 items-center justify-center bg-white/5 text-white/30">
+                        🏠 House Image
+                      </div>
+                    )}
+                  </div>
 
-                {/* 二维码容器 */}
-                <div className="mt-6 rounded-xl bg-white p-4">
-                  {siteContent.site?.qrCodeUrl ? (
-                    <img
-                      src={siteContent.site.qrCodeUrl}
-                      alt="QR Code"
-                      className="h-48 w-48 object-contain"
-                    />
-                  ) : (
-                    <div className="h-48 w-48 flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg">
-                      <p className="text-xs text-gray-400 text-center px-4">
-                        {lang === "en" ? "QR Code\nConfigure in admin" : "二维码\n后台配置"}
-                      </p>
+                  {/* House Details */}
+                  <div className="flex flex-col justify-center space-y-4 text-white/80">
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p className="text-xs uppercase tracking-wider text-white/50">Land Area</p>
+                        <p className="mt-1 font-medium">{siteContent.site?.landArea || "approx. 10,126 sqm (2.5 acres)"}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs uppercase tracking-wider text-white/50">Floor Area</p>
+                        <p className="mt-1 font-medium">{siteContent.site?.floorArea || "approx. 721 sqm (7,765 sq ft)"}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs uppercase tracking-wider text-white/50">Layout</p>
+                        <p className="mt-1 font-medium">{siteContent.site?.layout || "7b6b"}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs uppercase tracking-wider text-white/50">Capacity</p>
+                        <p className="mt-1 font-medium">{siteContent.site?.capacity || "200 guests"}</p>
+                      </div>
                     </div>
-                  )}
+                  </div>
                 </div>
+              </ScrollReveal>
 
-                <p className="mt-4 text-xs text-white/50">
-                  {lang === "en"
-                    ? (siteContent.site?.qrCodeFooterEn || "Private salons · Fellowships · Summits")
-                    : (siteContent.site?.qrCodeFooterZh || "私享沙龙 · 会员项目 · 峰会活动")}
-                </p>
-              </div>
-            </ScrollReveal>
-          </div>
+              {/* Contact Person & QR Code */}
+              <ScrollReveal delay={200}>
+                <div className="grid gap-8 md:grid-cols-2">
+                  {/* Contact Info */}
+                  <div className="space-y-4 rounded-2xl bg-white/5 p-8">
+                    <h3 className="text-lg font-semibold text-white">Contact</h3>
+                    <div className="space-y-3 text-sm text-white/80">
+                      <p className="font-medium text-white">{siteContent.site?.contactName || "Cathy Chang"}</p>
+
+                      {siteContent.site?.contactLinkedin && (
+                        <a href={siteContent.site.contactLinkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 transition-colors hover:text-gold">
+                          <span>LinkedIn:</span>
+                          <span className="text-gold">{siteContent.site.contactLinkedin}</span>
+                        </a>
+                      )}
+
+                      {siteContent.site?.contactTwitter && (
+                        <a href={siteContent.site.contactTwitter} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 transition-colors hover:text-gold">
+                          <span>Twitter:</span>
+                          <span className="text-gold">{siteContent.site.contactTwitter}</span>
+                        </a>
+                      )}
+
+                      {siteContent.site?.contactMobile && (
+                        <p>
+                          <span>Mobile:</span>
+                          <span className="ml-2">{siteContent.site.contactMobile}</span>
+                        </p>
+                      )}
+
+                      {siteContent.site?.contactWechat && (
+                        <p>
+                          <span>WeChat:</span>
+                          <span className="ml-2">{siteContent.site.contactWechat}</span>
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* QR Code */}
+                  <div className="flex flex-col items-center justify-center rounded-2xl bg-white/5 p-8 text-center">
+                    <h3 className="text-lg font-semibold text-white">Scan to Join</h3>
+                    <div className="mt-6 rounded-xl bg-white p-4">
+                      {siteContent.site?.qrCodeUrl ? (
+                        <img
+                          src={siteContent.site.qrCodeUrl}
+                          alt="QR Code"
+                          className="h-40 w-40 object-contain"
+                        />
+                      ) : (
+                        <div className="flex h-40 w-40 items-center justify-center border-2 border-dashed border-gray-300">
+                          <p className="text-xs text-gray-400">QR Code</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </ScrollReveal>
+            </div>
           </section>
         )}
       </main>

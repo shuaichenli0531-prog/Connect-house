@@ -276,7 +276,7 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
       <ModernAdminSection
         icon="📧"
         title={lang === "en" ? "Contact Section" : "联系区域"}
-        description={lang === "en" ? "Contact information at the bottom of the page" : "页面底部的联系信息"}
+        description={lang === "en" ? "House information and contact details" : "房子信息和联系方式"}
         accent="green"
         languageTabs={<LanguageTabs active={contactLang} onChange={setContactLang} />}
       >
@@ -286,19 +286,20 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
           onChange={(v) => updateSite("showContactSection", v)}
         />
 
+        {/* Section Title */}
         {contactLang === "en" ? (
           <div className="space-y-4">
             <AdminInput
-              label={lang === "en" ? "Title" : "标题"}
+              label={lang === "en" ? "Section Title" : "区域标题"}
               value={site.contactTitleEn || ""}
               onChange={(v) => updateSite("contactTitleEn", v)}
-              placeholder="Get in Touch"
+              placeholder="Contact Us"
             />
             <AdminInput
-              label={lang === "en" ? "Description" : "描述"}
+              label={lang === "en" ? "Subtitle" : "副标题"}
               value={site.contactSubtitleEn || ""}
               onChange={(v) => updateSite("contactSubtitleEn", v)}
-              placeholder="Ready to join..."
+              placeholder="Get in touch with us"
               type="textarea"
               rows={2}
             />
@@ -306,35 +307,111 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
         ) : (
           <div className="space-y-4">
             <AdminInput
-              label={lang === "en" ? "Title" : "标题"}
+              label={lang === "en" ? "Section Title" : "区域标题"}
               value={site.contactTitleZh || ""}
               onChange={(v) => updateSite("contactTitleZh", v)}
               placeholder="联系我们"
             />
             <AdminInput
-              label={lang === "en" ? "Description" : "描述"}
+              label={lang === "en" ? "Subtitle" : "副标题"}
               value={site.contactSubtitleZh || ""}
               onChange={(v) => updateSite("contactSubtitleZh", v)}
-              placeholder="准备加入..."
+              placeholder="与我们取得联系"
               type="textarea"
               rows={2}
             />
           </div>
         )}
 
-        <div className="mt-4 border-t border-white/10 pt-4 space-y-4">
-          <AdminInput
-            label={lang === "en" ? "Contact Email" : "联系邮箱"}
-            value={site.contactEmail || ""}
-            onChange={(v) => updateSite("contactEmail", v)}
-            placeholder="contact@thehouse.com"
-            type="email"
-          />
-        </div>
-
+        {/* House Information */}
         <div className="mt-6 border-t border-white/10 pt-6">
           <h4 className="mb-4 text-sm font-medium text-white/80">
-            {lang === "en" ? "QR Code Section (Right Side)" : "二维码区域（右侧）"}
+            {lang === "en" ? "🏠 House Information" : "🏠 房子信息"}
+          </h4>
+
+          <ImageUpload
+            label={lang === "en" ? "House Image" : "房子图片"}
+            value={site.houseImageUrl || ""}
+            onChange={(v) => updateSite("houseImageUrl", v)}
+            placeholder="Upload house image"
+          />
+
+          <div className="mt-4 grid grid-cols-2 gap-4">
+            <AdminInput
+              label={lang === "en" ? "Land Area" : "占地面积"}
+              value={site.landArea || ""}
+              onChange={(v) => updateSite("landArea", v)}
+              placeholder="approx. 10,126 sqm (2.5 acres)"
+            />
+            <AdminInput
+              label={lang === "en" ? "Floor Area" : "建筑面积"}
+              value={site.floorArea || ""}
+              onChange={(v) => updateSite("floorArea", v)}
+              placeholder="approx. 721 sqm (7,765 sq ft)"
+            />
+            <AdminInput
+              label={lang === "en" ? "Layout" : "户型"}
+              value={site.layout || ""}
+              onChange={(v) => updateSite("layout", v)}
+              placeholder="7b6b"
+            />
+            <AdminInput
+              label={lang === "en" ? "Capacity" : "容纳人数"}
+              value={site.capacity || ""}
+              onChange={(v) => updateSite("capacity", v)}
+              placeholder="200 guests"
+            />
+          </div>
+        </div>
+
+        {/* Contact Person */}
+        <div className="mt-6 border-t border-white/10 pt-6">
+          <h4 className="mb-4 text-sm font-medium text-white/80">
+            {lang === "en" ? "👤 Contact Person" : "👤 联系人"}
+          </h4>
+
+          <div className="space-y-4">
+            <AdminInput
+              label={lang === "en" ? "Name" : "姓名"}
+              value={site.contactName || ""}
+              onChange={(v) => updateSite("contactName", v)}
+              placeholder="Cathy Chang"
+            />
+            <AdminInput
+              label={lang === "en" ? "LinkedIn" : "领英"}
+              value={site.contactLinkedin || ""}
+              onChange={(v) => updateSite("contactLinkedin", v)}
+              placeholder="https://www.linkedin.com/in/yxchang/"
+              type="url"
+            />
+            <AdminInput
+              label={lang === "en" ? "Twitter" : "推特"}
+              value={site.contactTwitter || ""}
+              onChange={(v) => updateSite("contactTwitter", v)}
+              placeholder="https://x.com/Cathy_c8i"
+              type="url"
+            />
+            <div className="grid grid-cols-2 gap-4">
+              <AdminInput
+                label={lang === "en" ? "Mobile" : "手机"}
+                value={site.contactMobile || ""}
+                onChange={(v) => updateSite("contactMobile", v)}
+                placeholder="5108947404"
+              />
+              <AdminInput
+                label={lang === "en" ? "WeChat" : "微信"}
+                value={site.contactWechat || ""}
+                onChange={(v) => updateSite("contactWechat", v)}
+                placeholder="GNAHC0002"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* QR Code */}
+        <div className="mt-6 border-t border-white/10 pt-6">
+          <h4 className="mb-4 text-sm font-medium text-white/80">
+            {lang === "en" ? "📱 Scan to Join QR Code" : "📱 扫码加入二维码"}
           </h4>
 
           <ImageUpload
@@ -343,66 +420,6 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
             onChange={(v) => updateSite("qrCodeUrl", v)}
             placeholder="Upload your QR code image"
           />
-
-          {contactLang === "en" ? (
-            <div className="mt-4 space-y-4">
-              <AdminInput
-                label={lang === "en" ? "Top Label" : "顶部标签"}
-                value={site.qrCodeLabelEn || ""}
-                onChange={(v) => updateSite("qrCodeLabelEn", v)}
-                placeholder="Join Our Community"
-              />
-              <AdminInput
-                label={lang === "en" ? "Title" : "标题"}
-                value={site.qrCodeTitleEn || ""}
-                onChange={(v) => updateSite("qrCodeTitleEn", v)}
-                placeholder="Scan to Apply"
-              />
-              <AdminInput
-                label={lang === "en" ? "Description" : "描述"}
-                value={site.qrCodeDescEn || ""}
-                onChange={(v) => updateSite("qrCodeDescEn", v)}
-                placeholder="Scan the QR code to access..."
-                type="textarea"
-                rows={2}
-              />
-              <AdminInput
-                label={lang === "en" ? "Footer Text" : "底部文字"}
-                value={site.qrCodeFooterEn || ""}
-                onChange={(v) => updateSite("qrCodeFooterEn", v)}
-                placeholder="Private salons · Fellowships · Summits"
-              />
-            </div>
-          ) : (
-            <div className="mt-4 space-y-4">
-              <AdminInput
-                label={lang === "en" ? "Top Label" : "顶部标签"}
-                value={site.qrCodeLabelZh || ""}
-                onChange={(v) => updateSite("qrCodeLabelZh", v)}
-                placeholder="加入我们"
-              />
-              <AdminInput
-                label={lang === "en" ? "Title" : "标题"}
-                value={site.qrCodeTitleZh || ""}
-                onChange={(v) => updateSite("qrCodeTitleZh", v)}
-                placeholder="扫码申请"
-              />
-              <AdminInput
-                label={lang === "en" ? "Description" : "描述"}
-                value={site.qrCodeDescZh || ""}
-                onChange={(v) => updateSite("qrCodeDescZh", v)}
-                placeholder="扫描二维码申请会员资格"
-                type="textarea"
-                rows={2}
-              />
-              <AdminInput
-                label={lang === "en" ? "Footer Text" : "底部文字"}
-                value={site.qrCodeFooterZh || ""}
-                onChange={(v) => updateSite("qrCodeFooterZh", v)}
-                placeholder="私享沙龙 · 会员项目 · 峰会活动"
-              />
-            </div>
-          )}
         </div>
       </ModernAdminSection>
 
