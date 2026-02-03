@@ -48,7 +48,7 @@ const emptySite = {
 };
 
 export default function AdminPage() {
-  const [lang, setLang] = useState("en");
+  const [lang, setLang] = useState("zh");
   const [secret, setSecret] = useState(() => {
     // 从 localStorage 读取密码，如果没有则使用默认值
     if (typeof window !== 'undefined') {
