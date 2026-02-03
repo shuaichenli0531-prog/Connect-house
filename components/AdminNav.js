@@ -5,12 +5,14 @@ export default function AdminNav({ active, onSelect, lang = "en" }) {
       programs: "Programs",
       insights: "Insights",
       partners: "Partners",
+      pastEvents: "Past Events",
     },
     zh: {
       site: "站点配置",
       programs: "项目活动",
       insights: "洞察文章",
       partners: "合作伙伴",
+      pastEvents: "历史活动",
     },
   };
 
@@ -19,6 +21,7 @@ export default function AdminNav({ active, onSelect, lang = "en" }) {
     { id: "programs", label: labels[lang].programs },
     { id: "insights", label: labels[lang].insights },
     { id: "partners", label: labels[lang].partners },
+    { id: "pastEvents", label: labels[lang].pastEvents },
   ];
 
   return (

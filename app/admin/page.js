@@ -10,6 +10,7 @@ import ImageUpload from "../../components/ImageUpload";
 import ProgramEditor from "../../components/ProgramEditor";
 import InsightEditor from "../../components/InsightEditor";
 import PartnerEditor from "../../components/PartnerEditor";
+import PastEventEditor from "../../components/PastEventEditor";
 import VisibilityToggle from "../../components/admin/VisibilityToggle";
 
 const emptySite = {
@@ -61,6 +62,7 @@ export default function AdminPage() {
   const [programs, setPrograms] = useState([]);
   const [insights, setInsights] = useState([]);
   const [partners, setPartners] = useState([]);
+  const [pastEvents, setPastEvents] = useState([]);
   const [status, setStatus] = useState("");
   const [previewSection, setPreviewSection] = useState("hero");
   const [previewData, setPreviewData] = useState({});
@@ -83,7 +85,7 @@ export default function AdminPage() {
       return;
     }
 
-    console.log("Sending preview data:", { site, programs, insights, partners, lang });
+    console.log("Sending preview data:", { site, programs, insights, partners, pastEvents, lang });
 
     // 发送完整的预览数据到 iframe
     iframe.contentWindow.postMessage(
@@ -94,12 +96,13 @@ export default function AdminPage() {
           programs,
           insights,
           partners,
+          pastEvents,
           lang,
         },
       },
       "*"
     );
-  }, [site, programs, insights, partners, lang]);
+  }, [site, programs, insights, partners, pastEvents, lang]);
 
   const headers = useMemo(() => ({
     "Content-Type": "application/json",
@@ -108,11 +111,12 @@ export default function AdminPage() {
 
   async function loadAll() {
     if (!secret) return;
-    const [siteRes, programsRes, insightsRes, partnersRes] = await Promise.all([
+    const [siteRes, programsRes, insightsRes, partnersRes, pastEventsRes] = await Promise.all([
       fetch("/api/admin/site", { headers }),
       fetch("/api/admin/programs", { headers }),
       fetch("/api/admin/insights", { headers }),
       fetch("/api/admin/partners", { headers }),
+      fetch("/api/admin/pastevents", { headers }),
     ]);
 
     if (siteRes.status === 401) {
@@ -134,6 +138,7 @@ export default function AdminPage() {
     setPrograms(await programsRes.json());
     setInsights(await insightsRes.json());
     setPartners(await partnersRes.json());
+    setPastEvents(await pastEventsRes.json());
     setStatus("Loaded.");
   }
 
@@ -494,6 +499,60 @@ export default function AdminPage() {
                     onChange={(field, value) => updateList(setPartners, partner.id, field, value)}
                     onSave={() => updateItem("partners", partner.id, partner, setPartners)}
                     onDelete={() => deleteItem("partners", partner.id, setPartners)}
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {active === "pastEvents" && (
+            <section className="space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-bold text-white">
+                      {lang === "en" ? "Past Events" : "历史活动"}
+                    </h2>
+                    <p className="mt-1 text-sm text-white/60">
+                      {lang === "en"
+                        ? "Manage past events displayed in the carousel"
+                        : "管理展示在轮播图中的历史活动"}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    className="rounded-lg bg-gradient-to-r from-gold/20 to-gold/10 px-6 py-2.5 text-sm font-semibold text-gold shadow-lg ring-1 ring-gold/30 transition-all hover:shadow-xl"
+                    onClick={() => createItem("pastEvents", {
+                      titleEn: "",
+                      titleZh: "",
+                      descriptionEn: "",
+                      descriptionZh: "",
+                      imageUrl: "",
+                      date: "",
+                      sortOrder: pastEvents.length + 1,
+                      published: true,
+                    }, setPastEvents)}
+                  >
+                    {lang === "en" ? "+ Add Past Event" : "+ 添加历史活动"}
+                  </button>
+                </div>
+
+                <VisibilityToggle
+                  label={lang === "en" ? "Show this section on website" : "在网站上显示此区域"}
+                  checked={site.showPastEventsSection !== false}
+                  onChange={(v) => setSite({ ...site, showPastEventsSection: v })}
+                />
+              </div>
+
+              <div className="space-y-6">
+                {pastEvents.map((event) => (
+                  <PastEventEditor
+                    key={event.id}
+                    event={event}
+                    lang={lang}
+                    onChange={(field, value) => updateList(setPastEvents, event.id, field, value)}
+                    onSave={() => updateItem("pastEvents", event.id, event, setPastEvents)}
+                    onDelete={() => deleteItem("pastEvents", event.id, setPastEvents)}
                   />
                 ))}
               </div>
