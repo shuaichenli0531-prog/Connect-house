@@ -6,6 +6,7 @@ import ImageUpload from "./ImageUpload";
 import ModernAdminSection from "./ModernAdminSection";
 import LanguageTabs from "./LanguageTabs";
 import VisibilityToggle from "./admin/VisibilityToggle";
+import MultiImageUpload from "./admin/MultiImageUpload";
 
 import { useState } from "react";
 
@@ -329,11 +330,10 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
             {lang === "en" ? "🏠 House Information" : "🏠 房子信息"}
           </h4>
 
-          <ImageUpload
-            label={lang === "en" ? "House Image" : "房子图片"}
-            value={site.houseImageUrl || ""}
-            onChange={(v) => updateSite("houseImageUrl", v)}
-            placeholder="Upload house image"
+          <MultiImageUpload
+            label={lang === "en" ? "House Images (Carousel)" : "房子图片（轮播）"}
+            images={site.houseImages || "[]"}
+            onChange={(v) => updateSite("houseImages", v)}
           />
 
           <div className="mt-4 grid grid-cols-2 gap-4">

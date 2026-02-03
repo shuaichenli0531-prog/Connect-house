@@ -9,6 +9,7 @@ import ApplicationForm from "../components/ApplicationForm";
 import ScrollReveal from "../components/ScrollReveal";
 import LogoWall from "../components/LogoWall";
 import PastEventsCarousel from "../components/PastEventsCarousel";
+import HouseCarousel from "../components/HouseCarousel";
 
 const fallbackContent = {
   brand: {
@@ -450,105 +451,81 @@ export default function HomePage({ previewData = null }) {
 
         {siteContent.site?.showContactSection !== false && (
           <section id="contact" className="section-padding bg-white/5">
-            <div className="container-wide space-y-12">
+            <div className="container-wide space-y-10">
               <ScrollReveal>
                 <SectionHeading title={contact.title} subtitle={contact.subtitle} />
               </ScrollReveal>
 
-              {/* House Information */}
               <ScrollReveal delay={100}>
-                <div className="grid gap-8 md:grid-cols-[1fr_1.5fr] rounded-2xl bg-white/5 p-8">
-                  {/* House Image */}
-                  <div className="overflow-hidden rounded-xl">
-                    {siteContent.site?.houseImageUrl ? (
-                      <img
-                        src={siteContent.site.houseImageUrl}
-                        alt="House"
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-64 items-center justify-center bg-white/5 text-white/30">
-                        🏠 House Image
-                      </div>
-                    )}
-                  </div>
+                <div className="grid gap-6 md:grid-cols-[1.2fr_1fr_0.6fr] rounded-2xl bg-white/5 p-6">
+                  {/* House Image Carousel */}
+                  <HouseCarousel
+                    images={
+                      siteContent.site?.houseImages
+                        ? (typeof siteContent.site.houseImages === 'string'
+                            ? JSON.parse(siteContent.site.houseImages)
+                            : siteContent.site.houseImages)
+                        : []
+                    }
+                  />
 
-                  {/* House Details */}
-                  <div className="flex flex-col justify-center space-y-4 text-white/80">
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <p className="text-xs uppercase tracking-wider text-white/50">Land Area</p>
-                        <p className="mt-1 font-medium">{siteContent.site?.landArea || "approx. 10,126 sqm (2.5 acres)"}</p>
+                  {/* House & Contact Details */}
+                  <div className="flex flex-col justify-between space-y-6">
+                    {/* House Info */}
+                    <div className="space-y-3 text-sm text-white/80">
+                      <div className="flex justify-between border-b border-white/10 pb-2">
+                        <span className="text-white/50">Land Area</span>
+                        <span className="font-medium">{siteContent.site?.landArea || "10,126 sqm"}</span>
                       </div>
-                      <div>
-                        <p className="text-xs uppercase tracking-wider text-white/50">Floor Area</p>
-                        <p className="mt-1 font-medium">{siteContent.site?.floorArea || "approx. 721 sqm (7,765 sq ft)"}</p>
+                      <div className="flex justify-between border-b border-white/10 pb-2">
+                        <span className="text-white/50">Floor Area</span>
+                        <span className="font-medium">{siteContent.site?.floorArea || "721 sqm"}</span>
                       </div>
-                      <div>
-                        <p className="text-xs uppercase tracking-wider text-white/50">Layout</p>
-                        <p className="mt-1 font-medium">{siteContent.site?.layout || "7b6b"}</p>
+                      <div className="flex justify-between border-b border-white/10 pb-2">
+                        <span className="text-white/50">Layout</span>
+                        <span className="font-medium">{siteContent.site?.layout || "7b6b"}</span>
                       </div>
-                      <div>
-                        <p className="text-xs uppercase tracking-wider text-white/50">Capacity</p>
-                        <p className="mt-1 font-medium">{siteContent.site?.capacity || "200 guests"}</p>
+                      <div className="flex justify-between">
+                        <span className="text-white/50">Capacity</span>
+                        <span className="font-medium">{siteContent.site?.capacity || "200 guests"}</span>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </ScrollReveal>
 
-              {/* Contact Person & QR Code */}
-              <ScrollReveal delay={200}>
-                <div className="grid gap-8 md:grid-cols-2">
-                  {/* Contact Info */}
-                  <div className="space-y-4 rounded-2xl bg-white/5 p-8">
-                    <h3 className="text-lg font-semibold text-white">Contact</h3>
-                    <div className="space-y-3 text-sm text-white/80">
-                      <p className="font-medium text-white">{siteContent.site?.contactName || "Cathy Chang"}</p>
-
+                    {/* Contact Info */}
+                    <div className="space-y-2 border-t border-white/10 pt-4 text-sm">
+                      <p className="font-semibold text-white">{siteContent.site?.contactName || "Cathy Chang"}</p>
                       {siteContent.site?.contactLinkedin && (
-                        <a href={siteContent.site.contactLinkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 transition-colors hover:text-gold">
-                          <span>LinkedIn:</span>
-                          <span className="text-gold">{siteContent.site.contactLinkedin}</span>
+                        <a href={siteContent.site.contactLinkedin} target="_blank" rel="noopener noreferrer" className="block truncate text-gold transition-colors hover:text-gold/80">
+                          LinkedIn →
                         </a>
                       )}
-
                       {siteContent.site?.contactTwitter && (
-                        <a href={siteContent.site.contactTwitter} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 transition-colors hover:text-gold">
-                          <span>Twitter:</span>
-                          <span className="text-gold">{siteContent.site.contactTwitter}</span>
+                        <a href={siteContent.site.contactTwitter} target="_blank" rel="noopener noreferrer" className="block truncate text-gold transition-colors hover:text-gold/80">
+                          Twitter →
                         </a>
                       )}
-
                       {siteContent.site?.contactMobile && (
-                        <p>
-                          <span>Mobile:</span>
-                          <span className="ml-2">{siteContent.site.contactMobile}</span>
-                        </p>
+                        <p className="text-white/70">Mobile: {siteContent.site.contactMobile}</p>
                       )}
-
                       {siteContent.site?.contactWechat && (
-                        <p>
-                          <span>WeChat:</span>
-                          <span className="ml-2">{siteContent.site.contactWechat}</span>
-                        </p>
+                        <p className="text-white/70">WeChat: {siteContent.site.contactWechat}</p>
                       )}
                     </div>
                   </div>
 
                   {/* QR Code */}
-                  <div className="flex flex-col items-center justify-center rounded-2xl bg-white/5 p-8 text-center">
-                    <h3 className="text-lg font-semibold text-white">Scan to Join</h3>
-                    <div className="mt-6 rounded-xl bg-white p-4">
+                  <div className="flex flex-col items-center justify-center">
+                    <p className="mb-3 text-xs uppercase tracking-wider text-white/50">Scan to Join</p>
+                    <div className="rounded-lg bg-white p-3">
                       {siteContent.site?.qrCodeUrl ? (
                         <img
                           src={siteContent.site.qrCodeUrl}
                           alt="QR Code"
-                          className="h-40 w-40 object-contain"
+                          className="h-32 w-32 object-contain"
                         />
                       ) : (
-                        <div className="flex h-40 w-40 items-center justify-center border-2 border-dashed border-gray-300">
-                          <p className="text-xs text-gray-400">QR Code</p>
+                        <div className="flex h-32 w-32 items-center justify-center border-2 border-dashed border-gray-300">
+                          <p className="text-xs text-gray-400">QR</p>
                         </div>
                       )}
                     </div>

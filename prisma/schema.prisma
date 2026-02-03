@@ -60,7 +60,7 @@ model SiteConfig {
   contactSubtitleZh  String
 
   // House Information
-  houseImageUrl      String   @default("")
+  houseImages        String   @default("[]")
   landArea           String   @default("approx. 10,126 sqm (2.5 acres)")
   floorArea          String   @default("approx. 721 sqm (7,765 sq ft)")
   layout             String   @default("7b6b")
