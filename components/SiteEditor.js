@@ -5,6 +5,7 @@ import AdminInput from "./AdminInput";
 import ImageUpload from "./ImageUpload";
 import ModernAdminSection from "./ModernAdminSection";
 import LanguageTabs from "./LanguageTabs";
+import VisibilityToggle from "./admin/VisibilityToggle";
 
 import { useState } from "react";
 
@@ -271,6 +272,37 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
         )}
       </ModernAdminSection>
 
+      {/* Section Visibility Controls */}
+      <ModernAdminSection
+        icon="👁️"
+        title={lang === "en" ? "Section Visibility" : "区域显示控制"}
+        description={lang === "en" ? "Show or hide entire sections on your website" : "显示或隐藏网站上的整个区域"}
+        accent="purple"
+      >
+        <div className="space-y-3">
+          <VisibilityToggle
+            label={lang === "en" ? "Show Programs & Events" : "显示项目与活动"}
+            checked={site.showProgramsSection !== false}
+            onChange={(v) => updateSite("showProgramsSection", v)}
+          />
+          <VisibilityToggle
+            label={lang === "en" ? "Show Partners" : "显示合作伙伴"}
+            checked={site.showPartnersSection !== false}
+            onChange={(v) => updateSite("showPartnersSection", v)}
+          />
+          <VisibilityToggle
+            label={lang === "en" ? "Show Past Events" : "显示历史活动"}
+            checked={site.showPastEventsSection !== false}
+            onChange={(v) => updateSite("showPastEventsSection", v)}
+          />
+          <VisibilityToggle
+            label={lang === "en" ? "Show Contact Section" : "显示联系区域"}
+            checked={site.showContactSection !== false}
+            onChange={(v) => updateSite("showContactSection", v)}
+          />
+        </div>
+      </ModernAdminSection>
+
       {/* 4. Contact Section */}
       <ModernAdminSection
         icon="📧"
@@ -279,7 +311,6 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
         accent="green"
         languageTabs={<LanguageTabs active={contactLang} onChange={setContactLang} />}
       >
-
         {contactLang === "en" ? (
           <div className="space-y-4">
             <AdminInput

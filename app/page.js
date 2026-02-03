@@ -389,8 +389,9 @@ export default function HomePage({ previewData = null }) {
           </div>
         </section>
 
-        <section id="programs" className="section-padding">
-          <div className="container-wide space-y-10">
+        {siteContent.site?.showProgramsSection !== false && (
+          <section id="programs" className="section-padding">
+            <div className="container-wide space-y-10">
             <ScrollReveal>
               <SectionHeading title={programs.title} subtitle={programs.subtitle} />
             </ScrollReveal>
@@ -414,10 +415,11 @@ export default function HomePage({ previewData = null }) {
               ))}
             </div>
           </div>
-        </section>
+          </section>
+        )}
 
         {/* Past Events Gallery */}
-        {siteContent.pastEvents && siteContent.pastEvents.length > 0 && (
+        {siteContent.site?.showPastEventsSection !== false && siteContent.pastEvents && siteContent.pastEvents.length > 0 && (
           <section className="section-padding">
             <div className="container-wide space-y-10">
               <ScrollReveal>
@@ -433,19 +435,22 @@ export default function HomePage({ previewData = null }) {
           </section>
         )}
 
-        <section id="partners" className="section-padding bg-white/5">
-          <div className="container-wide space-y-10">
-            <ScrollReveal>
-              <SectionHeading title={partners.title} subtitle={partners.subtitle} />
-            </ScrollReveal>
-            <ScrollReveal delay={200}>
-              <LogoWall partners={siteContent.partnersData || []} />
-            </ScrollReveal>
-          </div>
-        </section>
+        {siteContent.site?.showPartnersSection !== false && (
+          <section id="partners" className="section-padding bg-white/5">
+            <div className="container-wide space-y-10">
+              <ScrollReveal>
+                <SectionHeading title={partners.title} subtitle={partners.subtitle} />
+              </ScrollReveal>
+              <ScrollReveal delay={200}>
+                <LogoWall partners={siteContent.partnersData || []} />
+              </ScrollReveal>
+            </div>
+          </section>
+        )}
 
-        <section id="contact" className="section-padding bg-white/5">
-          <div className="container-wide grid gap-10 md:grid-cols-[1.2fr_0.8fr]">
+        {siteContent.site?.showContactSection !== false && (
+          <section id="contact" className="section-padding bg-white/5">
+            <div className="container-wide grid gap-10 md:grid-cols-[1.2fr_0.8fr]">
             <ScrollReveal>
               <div className="space-y-6">
                 <SectionHeading title={contact.title} subtitle={contact.subtitle} />
@@ -500,7 +505,8 @@ export default function HomePage({ previewData = null }) {
               </div>
             </ScrollReveal>
           </div>
-        </section>
+          </section>
+        )}
       </main>
 
       <footer className="border-t border-white/10 py-8">

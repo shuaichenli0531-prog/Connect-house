@@ -74,6 +74,13 @@ model SiteConfig {
   qrCodeFooterEn     String   @default("Private salons · Fellowships · Summits")
   qrCodeFooterZh     String   @default("私享沙龙 · 会员项目 · 峰会活动")
   qrCodeUrl          String   @default("")
+
+  // Section Visibility Toggles
+  showProgramsSection Boolean  @default(true)
+  showPartnersSection Boolean  @default(true)
+  showPastEventsSection Boolean @default(true)
+  showContactSection Boolean  @default(true)
+
   updatedAt          DateTime @updatedAt
 }
 
