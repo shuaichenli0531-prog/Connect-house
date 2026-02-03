@@ -8,7 +8,6 @@ import LivePreview from "../../components/LivePreview";
 import SiteEditor from "../../components/SiteEditor";
 import ImageUpload from "../../components/ImageUpload";
 import ProgramEditor from "../../components/ProgramEditor";
-import InsightEditor from "../../components/InsightEditor";
 import PartnerEditor from "../../components/PartnerEditor";
 import PastEventEditor from "../../components/PastEventEditor";
 import VisibilityToggle from "../../components/admin/VisibilityToggle";
@@ -60,7 +59,6 @@ export default function AdminPage() {
   const [active, setActive] = useState("site");
   const [site, setSite] = useState(emptySite);
   const [programs, setPrograms] = useState([]);
-  const [insights, setInsights] = useState([]);
   const [partners, setPartners] = useState([]);
   const [pastEvents, setPastEvents] = useState([]);
   const [status, setStatus] = useState("");
@@ -85,7 +83,7 @@ export default function AdminPage() {
       return;
     }
 
-    console.log("Sending preview data:", { site, programs, insights, partners, pastEvents, lang });
+    console.log("Sending preview data:", { site, programs, partners, pastEvents, lang });
 
     // 发送完整的预览数据到 iframe
     iframe.contentWindow.postMessage(
@@ -94,7 +92,6 @@ export default function AdminPage() {
         data: {
           site,
           programs,
-          insights,
           partners,
           pastEvents,
           lang,
@@ -102,7 +99,7 @@ export default function AdminPage() {
       },
       "*"
     );
-  }, [site, programs, insights, partners, pastEvents, lang]);
+  }, [site, programs, partners, pastEvents, lang]);
 
   const headers = useMemo(() => ({
     "Content-Type": "application/json",
@@ -111,10 +108,9 @@ export default function AdminPage() {
 
   async function loadAll() {
     if (!secret) return;
-    const [siteRes, programsRes, insightsRes, partnersRes, pastEventsRes] = await Promise.all([
+    const [siteRes, programsRes, partnersRes, pastEventsRes] = await Promise.all([
       fetch("/api/admin/site", { headers }),
       fetch("/api/admin/programs", { headers }),
-      fetch("/api/admin/insights", { headers }),
       fetch("/api/admin/partners", { headers }),
       fetch("/api/admin/pastevents", { headers }),
     ]);
@@ -136,7 +132,6 @@ export default function AdminPage() {
 
     setSite(parsedSite);
     setPrograms(await programsRes.json());
-    setInsights(await insightsRes.json());
     setPartners(await partnersRes.json());
     setPastEvents(await pastEventsRes.json());
     setStatus("Loaded.");
@@ -402,52 +397,6 @@ export default function AdminPage() {
                     onChange={(field, value) => updateList(setPrograms, program.id, field, value)}
                     onSave={() => updateItem("programs", program.id, program, setPrograms)}
                     onDelete={() => deleteItem("programs", program.id, setPrograms)}
-                  />
-                ))}
-              </div>
-            </section>
-          )}
-
-          {active === "insights" && (
-            <section className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl font-bold text-white">
-                    {lang === "en" ? "Insights & Intelligence" : "洞察与情报"}
-                  </h2>
-                  <p className="mt-1 text-sm text-white/60">
-                    {lang === "en"
-                      ? "Manage insights displayed on the homepage"
-                      : "管理首页显示的洞察文章"}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  className="rounded-lg bg-gradient-to-r from-gold/20 to-gold/10 px-6 py-2.5 text-sm font-semibold text-gold shadow-lg ring-1 ring-gold/30 transition-all hover:shadow-xl"
-                  onClick={() => createItem("insights", {
-                    titleEn: "",
-                    titleZh: "",
-                    descriptionEn: "",
-                    descriptionZh: "",
-                    link: "",
-                    imageUrl: "",
-                    sortOrder: insights.length + 1,
-                    published: true,
-                  }, setInsights)}
-                >
-                  {lang === "en" ? "+ Add Insight" : "+ 添加洞察"}
-                </button>
-              </div>
-
-              <div className="space-y-6">
-                {insights.map((insight) => (
-                  <InsightEditor
-                    key={insight.id}
-                    insight={insight}
-                    lang={lang}
-                    onChange={(field, value) => updateList(setInsights, insight.id, field, value)}
-                    onSave={() => updateItem("insights", insight.id, insight, setInsights)}
-                    onDelete={() => deleteItem("insights", insight.id, setInsights)}
                   />
                 ))}
               </div>
