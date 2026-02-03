@@ -436,7 +436,7 @@ export default function HomePage({ previewData = null }) {
         )}
 
         {siteContent.site?.showPartnersSection !== false && (
-          <section id="partners" className="section-padding bg-white/5">
+          <section id="partners" className="section-padding">
             <div className="container-wide space-y-10">
               <ScrollReveal>
                 <SectionHeading title={partners.title} subtitle={partners.subtitle} />
