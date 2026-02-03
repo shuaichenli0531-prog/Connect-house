@@ -10,6 +10,7 @@ import ImageUpload from "../../components/ImageUpload";
 import ProgramEditor from "../../components/ProgramEditor";
 import InsightEditor from "../../components/InsightEditor";
 import PartnerEditor from "../../components/PartnerEditor";
+import VisibilityToggle from "../../components/admin/VisibilityToggle";
 
 const emptySite = {
   brandName: "",
@@ -347,36 +348,44 @@ export default function AdminPage() {
 
           {active === "programs" && (
             <section className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl font-bold text-white">
-                    {lang === "en" ? "Programs & Events" : "项目与活动"}
-                  </h2>
-                  <p className="mt-1 text-sm text-white/60">
-                    {lang === "en"
-                      ? "Manage programs displayed on the homepage"
-                      : "管理首页显示的项目活动"}
-                  </p>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-bold text-white">
+                      {lang === "en" ? "Programs & Events" : "项目与活动"}
+                    </h2>
+                    <p className="mt-1 text-sm text-white/60">
+                      {lang === "en"
+                        ? "Manage programs displayed on the homepage"
+                        : "管理首页显示的项目活动"}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    className="rounded-lg bg-gradient-to-r from-gold/20 to-gold/10 px-6 py-2.5 text-sm font-semibold text-gold shadow-lg ring-1 ring-gold/30 transition-all hover:shadow-xl"
+                    onClick={() => createItem("programs", {
+                      type: "FELLOWSHIP",
+                      titleEn: "",
+                      titleZh: "",
+                      date: "",
+                      location: "",
+                      descriptionEn: "",
+                      descriptionZh: "",
+                      link: "",
+                      imageUrl: "",
+                      sortOrder: programs.length + 1,
+                      published: true,
+                    }, setPrograms)}
+                  >
+                    {lang === "en" ? "+ Add Program" : "+ 添加项目"}
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  className="rounded-lg bg-gradient-to-r from-gold/20 to-gold/10 px-6 py-2.5 text-sm font-semibold text-gold shadow-lg ring-1 ring-gold/30 transition-all hover:shadow-xl"
-                  onClick={() => createItem("programs", {
-                    type: "FELLOWSHIP",
-                    titleEn: "",
-                    titleZh: "",
-                    date: "",
-                    location: "",
-                    descriptionEn: "",
-                    descriptionZh: "",
-                    link: "",
-                    imageUrl: "",
-                    sortOrder: programs.length + 1,
-                    published: true,
-                  }, setPrograms)}
-                >
-                  {lang === "en" ? "+ Add Program" : "+ 添加项目"}
-                </button>
+
+                <VisibilityToggle
+                  label={lang === "en" ? "Show this section on website" : "在网站上显示此区域"}
+                  checked={site.showProgramsSection !== false}
+                  onChange={(v) => setSite({ ...site, showProgramsSection: v })}
+                />
               </div>
 
               <div className="space-y-6">
@@ -442,30 +451,38 @@ export default function AdminPage() {
 
           {active === "partners" && (
             <section className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl font-bold text-white">
-                    {lang === "en" ? "Strategic Partners" : "战略合作伙伴"}
-                  </h2>
-                  <p className="mt-1 text-sm text-white/60">
-                    {lang === "en"
-                      ? "Manage partners displayed in the logo wall"
-                      : "管理Logo墙中显示的合作伙伴"}
-                  </p>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-2xl font-bold text-white">
+                      {lang === "en" ? "Strategic Partners" : "战略合作伙伴"}
+                    </h2>
+                    <p className="mt-1 text-sm text-white/60">
+                      {lang === "en"
+                        ? "Manage partners displayed in the logo wall"
+                        : "管理Logo墙中显示的合作伙伴"}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    className="rounded-lg bg-gradient-to-r from-gold/20 to-gold/10 px-6 py-2.5 text-sm font-semibold text-gold shadow-lg ring-1 ring-gold/30 transition-all hover:shadow-xl"
+                    onClick={() => createItem("partners", {
+                      name: "",
+                      logoUrl: "",
+                      url: "",
+                      sortOrder: partners.length + 1,
+                      published: true,
+                    }, setPartners)}
+                  >
+                    {lang === "en" ? "+ Add Partner" : "+ 添加合作伙伴"}
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  className="rounded-lg bg-gradient-to-r from-gold/20 to-gold/10 px-6 py-2.5 text-sm font-semibold text-gold shadow-lg ring-1 ring-gold/30 transition-all hover:shadow-xl"
-                  onClick={() => createItem("partners", {
-                    name: "",
-                    logoUrl: "",
-                    url: "",
-                    sortOrder: partners.length + 1,
-                    published: true,
-                  }, setPartners)}
-                >
-                  {lang === "en" ? "+ Add Partner" : "+ 添加合作伙伴"}
-                </button>
+
+                <VisibilityToggle
+                  label={lang === "en" ? "Show this section on website" : "在网站上显示此区域"}
+                  checked={site.showPartnersSection !== false}
+                  onChange={(v) => setSite({ ...site, showPartnersSection: v })}
+                />
               </div>
 
               <div className="space-y-6">
