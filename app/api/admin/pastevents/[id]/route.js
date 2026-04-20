@@ -1,17 +1,14 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
-
-function checkAuth(req) {
-  const authHeader = req.headers.get("x-admin-secret");
-  const validSecret = process.env.ADMIN_SECRET || "change-me";
-  return authHeader === validSecret;
-}
+import { prisma } from "../../../../../lib/prisma";
+import { getAdminAuthError } from "../../../../../lib/admin-auth";
 
 export async function PUT(req, { params }) {
-  if (!checkAuth(req)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const authError = getAdminAuthError(req);
+  if (authError) {
+    return NextResponse.json(
+      { error: authError },
+      { status: authError.includes("configured") ? 500 : 401 }
+    );
   }
 
   const id = parseInt(params.id);
@@ -26,8 +23,12 @@ export async function PUT(req, { params }) {
 }
 
 export async function DELETE(req, { params }) {
-  if (!checkAuth(req)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const authError = getAdminAuthError(req);
+  if (authError) {
+    return NextResponse.json(
+      { error: authError },
+      { status: authError.includes("configured") ? 500 : 401 }
+    );
   }
 
   const id = parseInt(params.id);

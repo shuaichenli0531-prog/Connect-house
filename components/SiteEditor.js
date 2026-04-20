@@ -32,6 +32,21 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
     }
   };
 
+  const handleVisibilityChange = async (key, value) => {
+    const nextSite = { ...site, [key]: value };
+    setSite(nextSite);
+
+    setSaveStatus("saving");
+    try {
+      await onSave(nextSite);
+      setSaveStatus("success");
+      setTimeout(() => setSaveStatus(""), 3000);
+    } catch (error) {
+      setSaveStatus("error");
+      setTimeout(() => setSaveStatus(""), 5000);
+    }
+  };
+
   return (
     <div className="space-y-6">
 
@@ -284,7 +299,7 @@ export default function SiteEditor({ site, setSite, lang, onSave }) {
         <VisibilityToggle
           label={lang === "en" ? "Show this section on website" : "在网站上显示此区域"}
           checked={site.showContactSection !== false}
-          onChange={(v) => updateSite("showContactSection", v)}
+          onChange={(v) => handleVisibilityChange("showContactSection", v)}
         />
 
         {/* Section Title */}

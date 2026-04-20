@@ -5,33 +5,39 @@ import { useState, useEffect } from "react";
 export default function HouseCarousel({ images = [], autoPlayInterval = 5000 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-
-  if (!images || images.length === 0) {
-    return (
-      <div className="flex h-80 items-center justify-center rounded-xl bg-white/5 text-white/30">
-        🏠 House Images
-      </div>
-    );
-  }
+  const safeImages = Array.isArray(images) ? images : [];
 
   const goToPrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? safeImages.length - 1 : prev - 1));
   };
 
   const goToNext = () => {
-    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+    setCurrentIndex((prev) => (prev === safeImages.length - 1 ? 0 : prev + 1));
   };
+
+  useEffect(() => {
+    if (currentIndex < safeImages.length) return;
+    setCurrentIndex(0);
+  }, [currentIndex, safeImages.length]);
 
   // Auto-play functionality
   useEffect(() => {
-    if (images.length <= 1 || isHovered) return;
+    if (safeImages.length <= 1 || isHovered) return;
 
     const interval = setInterval(() => {
       goToNext();
     }, autoPlayInterval);
 
     return () => clearInterval(interval);
-  }, [currentIndex, images.length, isHovered, autoPlayInterval]);
+  }, [currentIndex, safeImages.length, isHovered, autoPlayInterval]);
+
+  if (safeImages.length === 0) {
+    return (
+      <div className="flex h-80 items-center justify-center rounded-xl bg-white/5 text-white/30">
+        🏠 House Images
+      </div>
+    );
+  }
 
   return (
     <div
@@ -41,13 +47,13 @@ export default function HouseCarousel({ images = [], autoPlayInterval = 5000 }) 
     >
       {/* Main Image */}
       <img
-        src={images[currentIndex]}
+        src={safeImages[currentIndex]}
         alt={`House ${currentIndex + 1}`}
         className="h-80 w-full object-cover transition-all duration-700 ease-in-out"
       />
 
       {/* Navigation Arrows */}
-      {images.length > 1 && (
+      {safeImages.length > 1 && (
         <>
           <button
             onClick={goToPrevious}
@@ -71,9 +77,9 @@ export default function HouseCarousel({ images = [], autoPlayInterval = 5000 }) 
       )}
 
       {/* Dots Indicator (Banner Style) */}
-      {images.length > 1 && (
+      {safeImages.length > 1 && (
         <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
-          {images.map((_, index) => (
+          {safeImages.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentIndex(index)}

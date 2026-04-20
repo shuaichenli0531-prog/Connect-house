@@ -9,17 +9,25 @@ npm run prisma:push
 npm run dev
 ```
 
+Before running locally, create `.env.local` or `.env` with:
+
+```bash
+DATABASE_URL="your-postgresql-connection-string"
+DIRECT_URL="your-postgresql-direct-connection-string"
+ADMIN_SECRET="the-same-secret-you-will-use-in-production"
+```
+
 Open:
 - `http://localhost:3000/` for the site
 - `http://localhost:3000/admin` for the admin console
 
 ## Admin login
 
-Set `ADMIN_SECRET` in `.env` and enter it in the admin page input.
+Set `ADMIN_SECRET` in `.env.local` or `.env`, then enter the same value in the admin page input.
 
 ## Editable content
 
-All site content is stored in SQLite and managed via `/admin`:
+All site content is stored in PostgreSQL and managed via `/admin`:
 - Site config (brand, hero, about, contact)
 - Programs & events
 - Insights

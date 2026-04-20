@@ -50,11 +50,11 @@ const emptySite = {
 export default function AdminPage() {
   const [lang, setLang] = useState("zh");
   const [secret, setSecret] = useState(() => {
-    // 从 localStorage 读取密码，如果没有则使用默认值
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('adminSecret') || "454536174";
+      return localStorage.getItem('adminSecret') || "";
     }
-    return "454536174";
+
+    return "";
   });
   const [active, setActive] = useState("site");
   const [site, setSite] = useState(emptySite);
@@ -106,8 +106,21 @@ export default function AdminPage() {
     "x-admin-secret": secret,
   }), [secret]);
 
+  async function getErrorMessage(res, fallback) {
+    try {
+      const data = await res.json();
+      return data?.message || data?.error || fallback;
+    } catch {
+      return fallback;
+    }
+  }
+
   async function loadAll() {
-    if (!secret) return;
+    if (!secret) {
+      setStatus("Enter your admin secret to load content.");
+      return;
+    }
+
     const [siteRes, programsRes, partnersRes, pastEventsRes] = await Promise.all([
       fetch("/api/admin/site", { headers }),
       fetch("/api/admin/programs", { headers }),
@@ -117,6 +130,11 @@ export default function AdminPage() {
 
     if (siteRes.status === 401) {
       setStatus("Unauthorized. Check your admin secret.");
+      return;
+    }
+
+    if (!siteRes.ok) {
+      setStatus(await getErrorMessage(siteRes, "Load failed."));
       return;
     }
 
@@ -138,8 +156,6 @@ export default function AdminPage() {
   }
 
   useEffect(() => {
-    loadAll();
-
     // 监听来自预览 iframe 的消息
     function handleMessage(event) {
       if (event.data.type === "PREVIEW_READY") {
@@ -148,22 +164,29 @@ export default function AdminPage() {
     }
     window.addEventListener("message", handleMessage);
     return () => window.removeEventListener("message", handleMessage);
-  }, []); // 只在页面加载时执行一次
+  }, []);
+
+  useEffect(() => {
+    loadAll();
+  }, [headers]);
 
   // 将 saveSite 暴露给子组件
   if (typeof window !== 'undefined') {
     window.saveSite = saveSite;
   }
 
-  async function saveSite() {
+  async function saveSite(nextSite = site) {
+    return saveSiteConfig(nextSite);
+  }
+
+  async function saveSiteConfig(nextSite, successMessage = "Saved.") {
     setStatus("Saving...");
 
-    // 将 JSON 对象转为字符串以存储到 SQLite
     const siteToSave = {
-      ...site,
-      aboutPillars: typeof site.aboutPillars === 'object'
-        ? JSON.stringify(site.aboutPillars)
-        : site.aboutPillars,
+      ...nextSite,
+      aboutPillars: typeof nextSite.aboutPillars === 'object'
+        ? JSON.stringify(nextSite.aboutPillars)
+        : nextSite.aboutPillars,
     };
 
     const res = await fetch("/api/admin/site", {
@@ -172,20 +195,32 @@ export default function AdminPage() {
       body: JSON.stringify(siteToSave),
     });
     if (!res.ok) {
-      setStatus("Save failed.");
+      setStatus(await getErrorMessage(res, "Save failed."));
       return;
     }
-    setStatus("Saved.");
+
+    setStatus(successMessage);
+  }
+
+  async function updateSectionVisibility(key, value) {
+    const nextSite = { ...site, [key]: value };
+    setSite(nextSite);
+    await saveSiteConfig(nextSite, "Section visibility saved.");
   }
 
   async function createItem(path, item, setList) {
+    if (!secret) {
+      setStatus("Enter your admin secret before creating content.");
+      return;
+    }
+
     const res = await fetch(`/api/admin/${path}`, {
       method: "POST",
       headers,
       body: JSON.stringify(item),
     });
     if (!res.ok) {
-      setStatus("Create failed.");
+      setStatus(await getErrorMessage(res, "Create failed."));
       return;
     }
     const created = await res.json();
@@ -194,13 +229,18 @@ export default function AdminPage() {
   }
 
   async function updateItem(path, id, item, setList) {
+    if (!secret) {
+      setStatus("Enter your admin secret before saving changes.");
+      return;
+    }
+
     const res = await fetch(`/api/admin/${path}/${id}`, {
       method: "PUT",
       headers,
       body: JSON.stringify(item),
     });
     if (!res.ok) {
-      setStatus("Update failed.");
+      setStatus(await getErrorMessage(res, "Update failed."));
       return;
     }
     const updated = await res.json();
@@ -209,12 +249,17 @@ export default function AdminPage() {
   }
 
   async function deleteItem(path, id, setList) {
+    if (!secret) {
+      setStatus("Enter your admin secret before deleting content.");
+      return;
+    }
+
     const res = await fetch(`/api/admin/${path}/${id}`, {
       method: "DELETE",
       headers,
     });
     if (!res.ok) {
-      setStatus("Delete failed.");
+      setStatus(await getErrorMessage(res, "Delete failed."));
       return;
     }
     setList((prev) => prev.filter((row) => row.id !== id));
@@ -230,6 +275,7 @@ export default function AdminPage() {
       title: "Admin",
       subtitle: "Local content management",
       secretPlaceholder: "Admin secret",
+      secretRequired: "Enter your admin secret to manage content.",
       site: "Site",
       programs: "Programs",
       insights: "Insights",
@@ -243,6 +289,7 @@ export default function AdminPage() {
       title: "管理后台",
       subtitle: "本地内容管理",
       secretPlaceholder: "管理员密码",
+      secretRequired: "请先输入管理员密码，再进行内容管理。",
       site: "站点配置",
       programs: "项目活动",
       insights: "洞察文章",
@@ -267,8 +314,27 @@ export default function AdminPage() {
             <LanguageToggle lang={lang} onChange={setLang} />
           </div>
 
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-white/80">
+              {t[lang].secretPlaceholder}
+            </label>
+            <input
+              type="password"
+              className="w-full rounded-lg border border-white/20 bg-white/5 px-4 py-2.5 text-white placeholder-white/40 transition-all focus:border-gold/50 focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-gold/20"
+              value={secret}
+              onChange={(e) => setSecret(e.target.value)}
+              placeholder={t[lang].secretPlaceholder}
+            />
+          </div>
+
           <AdminNav active={active} onSelect={setActive} lang={lang} />
-          <p className="text-xs uppercase tracking-[0.3em] text-gold">{status}</p>
+          <div className={`rounded-lg border px-4 py-3 text-sm ${
+            status
+              ? "border-gold/30 bg-gold/10 text-gold"
+              : "border-white/10 bg-white/5 text-white/60"
+          }`}>
+            {status || t[lang].secretRequired}
+          </div>
 
           {active === "site" && (
             <section>
@@ -362,6 +428,7 @@ export default function AdminPage() {
                   </div>
                   <button
                     type="button"
+                    disabled={!secret}
                     className="rounded-lg bg-gradient-to-r from-gold/20 to-gold/10 px-6 py-2.5 text-sm font-semibold text-gold shadow-lg ring-1 ring-gold/30 transition-all hover:shadow-xl"
                     onClick={() => createItem("programs", {
                       type: "FELLOWSHIP",
@@ -384,7 +451,7 @@ export default function AdminPage() {
                 <VisibilityToggle
                   label={lang === "en" ? "Show this section on website" : "在网站上显示此区域"}
                   checked={site.showProgramsSection !== false}
-                  onChange={(v) => setSite({ ...site, showProgramsSection: v })}
+                  onChange={(v) => updateSectionVisibility("showProgramsSection", v)}
                 />
               </div>
 
@@ -435,7 +502,7 @@ export default function AdminPage() {
                 <VisibilityToggle
                   label={lang === "en" ? "Show this section on website" : "在网站上显示此区域"}
                   checked={site.showPartnersSection !== false}
-                  onChange={(v) => setSite({ ...site, showPartnersSection: v })}
+                  onChange={(v) => updateSectionVisibility("showPartnersSection", v)}
                 />
               </div>
 
@@ -489,7 +556,7 @@ export default function AdminPage() {
                 <VisibilityToggle
                   label={lang === "en" ? "Show this section on website" : "在网站上显示此区域"}
                   checked={site.showPastEventsSection !== false}
-                  onChange={(v) => setSite({ ...site, showPastEventsSection: v })}
+                  onChange={(v) => updateSectionVisibility("showPastEventsSection", v)}
                 />
               </div>
 
