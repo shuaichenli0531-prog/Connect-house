@@ -538,7 +538,7 @@ export default function AdminPage() {
                   <button
                     type="button"
                     className="rounded-lg bg-gradient-to-r from-gold/20 to-gold/10 px-6 py-2.5 text-sm font-semibold text-gold shadow-lg ring-1 ring-gold/30 transition-all hover:shadow-xl"
-                    onClick={() => createItem("pastEvents", {
+                    onClick={() => createItem("pastevents", {
                       titleEn: "",
                       titleZh: "",
                       descEn: "",
@@ -567,8 +567,8 @@ export default function AdminPage() {
                     event={event}
                     lang={lang}
                     onChange={(field, value) => updateList(setPastEvents, event.id, field, value)}
-                    onSave={() => updateItem("pastEvents", event.id, event, setPastEvents)}
-                    onDelete={() => deleteItem("pastEvents", event.id, setPastEvents)}
+                    onSave={() => updateItem("pastevents", event.id, event, setPastEvents)}
+                    onDelete={() => deleteItem("pastevents", event.id, setPastEvents)}
                   />
                 ))}
               </div>
