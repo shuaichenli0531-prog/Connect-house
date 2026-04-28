@@ -2,6 +2,20 @@ import { NextResponse } from "next/server";
 import { prisma } from "../../../../../lib/prisma";
 import { getAdminAuthError } from "../../../../../lib/admin-auth";
 
+function normalizePastEventPayload(payload) {
+  const {
+    descriptionEn,
+    descriptionZh,
+    ...rest
+  } = payload;
+
+  return {
+    ...rest,
+    descEn: payload.descEn ?? descriptionEn ?? "",
+    descZh: payload.descZh ?? descriptionZh ?? "",
+  };
+}
+
 export async function PUT(req, { params }) {
   const authError = getAdminAuthError(req);
   if (authError) {
@@ -16,7 +30,7 @@ export async function PUT(req, { params }) {
 
   const event = await prisma.pastEvent.update({
     where: { id },
-    data: body,
+    data: normalizePastEventPayload(body),
   });
 
   return NextResponse.json(event);

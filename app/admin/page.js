@@ -541,8 +541,8 @@ export default function AdminPage() {
                     onClick={() => createItem("pastEvents", {
                       titleEn: "",
                       titleZh: "",
-                      descriptionEn: "",
-                      descriptionZh: "",
+                      descEn: "",
+                      descZh: "",
                       imageUrl: "",
                       date: "",
                       sortOrder: pastEvents.length + 1,

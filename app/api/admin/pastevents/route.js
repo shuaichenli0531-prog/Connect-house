@@ -2,6 +2,20 @@ import { NextResponse } from "next/server";
 import { prisma } from "../../../../lib/prisma";
 import { getAdminAuthError } from "../../../../lib/admin-auth";
 
+function normalizePastEventPayload(payload) {
+  const {
+    descriptionEn,
+    descriptionZh,
+    ...rest
+  } = payload;
+
+  return {
+    ...rest,
+    descEn: payload.descEn ?? descriptionEn ?? "",
+    descZh: payload.descZh ?? descriptionZh ?? "",
+  };
+}
+
 export async function GET(req) {
   const authError = getAdminAuthError(req);
   if (authError) {
@@ -28,7 +42,9 @@ export async function POST(req) {
   }
 
   const body = await req.json();
-  const event = await prisma.pastEvent.create({ data: body });
+  const event = await prisma.pastEvent.create({
+    data: normalizePastEventPayload(body),
+  });
 
   return NextResponse.json(event);
 }
